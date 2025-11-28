@@ -1,0 +1,38 @@
+Script started on 2025-09-11 18:41:15-05:00 [TERM="xterm-256color" TTY="/dev/pts/6" COLUMNS="66" LINES="14"]
+[?2004h]0;john@debian: ~/cs161[01;32mjohn@debian[00m:[01;34m~/cs161[00m$ s[Kcd ~/cs161/root
+[?2004l[?2004h]0;john@debian: ~/cs161/root[01;32mjohn@debian[00m:[01;34m~/cs161/root[00m$ cs161-gdb kernel
+[?2004lbash: cs161-gdb: command not found
+[?2004h]0;john@debian: ~/cs161/root[01;32mjohn@debian[00m:[01;34m~/cs161/root[00m$ cs161-gdb kernel
+[?2004l[?1034hGNU gdb 6.6
+Copyright (C) 2006 Free Software Foundation, Inc.
+GDB is free software, covered by the GNU General Public License, and you are
+welcome to change it and/or distribute copies of it under certain conditions.
+Type "show copying" to see the conditions.
+There is absolutely no warranty for GDB.  Type "show warranty" for details.
+This GDB was configured as "--host= --target=mips-elf"...
+/home/john/.gdbinit:1: Error in sourced command file:
+simple: No such file or directory.
+(gdb) target remote unix:.sockets/d[Kgdb
+Remote debugging using unix:.sockets/gdb
+__start () at ../../arch/mips/mips/start.S:24
+24	../../arch/mips/mips/start.S: No such file or directory.
+	in ../../arch/mips/mips/start.S
+Current language:  auto; currently asm
+(gdb) break menu
+Breakpoint 1 at 0x8001ba6c
+(gdb) c
+Continuing.
+
+Breakpoint 1, 0xffffffff8001ba6c in menu ()
+(gdb) where
+#0  0xffffffff8001ba6c in menu ()
+#1  0xffffffff8001a99c in kmain ()
+#2  0xffffffff8000d274 in __start ()
+    at ../../arch/mips/mips/start.S:163
+(gdb) detach
+Ending remote debugging.
+(gdb) quit
+[?2004h]0;john@debian: ~/cs161/root[01;32mjohn@debian[00m:[01;34m~/cs161/root[00m$ exit
+[?2004lexit
+
+Script done on 2025-09-11 20:00:55-05:00 [COMMAND_EXIT_CODE="0"]

@@ -1,0 +1,658 @@
+Script started on 2025-09-11 18:28:09-05:00 [TERM="xterm-256color" TTY="/dev/pts/5" COLUMNS="84" LINES="14"]
+[?2004h]0;john@debian: ~/cs161[01;32mjohn@debian[00m:[01;34m~/cs161[00m$ touch [7m ~/cs161/src/kern/main/hello.c[27m[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C ~/cs161/src/kern/main/hello.c
+[?2004l[?2004h]0;john@debian: ~/cs161[01;32mjohn@debian[00m:[01;34m~/cs161[00m$ c[7md ~/cs161/src/kern/main [27m[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[Cd ~/cs161/src/kern/main 
+[?2004l[?2004h]0;john@debian: ~/cs161/src/kern/main[01;32mjohn@debian[00m:[01;34m~/cs161/src/kern/main[00m$ git add hello,.c[K[K[K.c
+[?2004l[?2004h]0;john@debian: ~/cs161/src/kern/main[01;32mjohn@debian[00m:[01;34m~/cs161/src/kern/main[00m$ ls
+[?2004lhello.c  main.c  menu.c
+[?2004h]0;john@debian: ~/cs161/src/kern/main[01;32mjohn@debian[00m:[01;34m~/cs161/src/kern/main[00m$  c[K[Kcdo[K[Kode hello.c 
+[?2004l[?2004h]0;john@debian: ~/cs161/src/kern/main[01;32mjohn@debian[00m:[01;34m~/cs161/src/kern/main[00m$ cd ~/cs[Kd161/[K[K[K[K[Ks161/src/kern/conf
+[?2004l[?2004h]0;john@debian: ~/cs161/src/kern/conf[01;32mjohn@debian[00m:[01;34m~/cs161/src/kern/conf[00m$ vi conf.kern
+[?2004l[?1006;1000h[?1002h[?1049h[22;0;0t[>4;2m[?1h=[?2004h[?1004h[1;14r[?12h[?12l[22;2t[22;1t[27m[23m[29m[m[H[2J[?25l[14;1H"conf.kern" 453L, 14085B[2;1H▽[6n[2;1H  [3;1HPzz\[0%m[6n[3;1H           [1;1H[>c]10;?]11;?[1;1H[34m#
+# Machine-independent kernel config definitions.[m[2;49H[K[3;1H[34m#[m[3;2H[K[4;1H[34m# The idea is that the files, options, and facilities in the system
+# are declared by conf.kern and the various files it includes. Then
+# a kernel config (such as ASST1) is used to select options and 
+# facilities for a particular kernel build.
+#
+# To add new files to the system, you need to edit this file (or
+# others like it) and rerun the config script.
+#
+# Note: when running the config script, be sure to be in the
+# right directory (the same one this file is in) and run it as[m[14;67H1,1[11CTop[1;1H[?25h[?4mP+q436f\P+q6b75\P+q6b64\P+q6b72\P+q6b6c\P+q2332\P+q2334\P+q2569\P+q2a37\P+q6b31\[?12$p[?25l[14;57H/[1;1H[14;58Hc[1;1H[14;59Hc[1;1H[14;60Hc[1;1H[14;61Hc[1;1H[14;62H/[1;1H[14;63Hc[1;1H[14;64Hc[1;1H[14;65Hc[1;1H[14;66Hc[1;1H[14;57H          [1;1H[?25h[?25l[14;57H/[1;1H[14;58H1[1;1H[14;59He[1;1H[14;60H1[1;1H[14;61He[1;1H[14;62H/[1;1H[14;63H1[1;1H[14;64He[1;1H[14;65H1[1;1H[14;66He[1;1H[14;57H          [1;1H[27m[23m[29m[m[H[2J[1;1H[96m#
+# Machine-independent kernel config definitions.
+#
+# The idea is that the files, options, and facilities in the system
+# are declared by conf.kern and the various files it includes. Then
+# a kernel config (such as ASST1) is used to select options and 
+# facilities for a particular kernel build.
+#
+# To add new files to the system, you need to edit this file (or
+# others like it) and rerun the config script.
+#
+# Note: when running the config script, be sure to be in the
+# right directory (the same one this file is in) and run it as[m[14;67H1,1[11CTop"conf.kern" 453L, 14085B[1;1H[?25h[?25l[1;13r[1;1H[3M[1;14r[11;1H[96m# "./config", not just "config" - in the latter case you will
+# probably get the host system's kernel config utility, which
+# will likely make a mess and produce mysterious error messages.[m[14;1H[K[14;67H9,1[12C0%[6;1H[?25h[?25l[1;13r[1;1H[3M[1;14r[11;1H[96m#
+# The documentation for the syntax of these files follows.
+#[m[14;67H[K[14;67H12,1[11C1%[6;1H[?25h[?25l[1;13r[1;1H[3M[1;14r[12;1H[96m############################################################
+#[m[14;67H[K[14;67H15,1[11C2%[6;1H[?25h[?25l[1;13r[1;1H[3M[1;14r[11;1H[96m# Kernel config file syntax:
+#
+# The syntax for specifying the processor architecture to use is:[m[14;67H[K[14;67H18,1[11C2%[6;1H[?25h[?25l[1;13r[1;1H[3M[1;14r[11;1H[96m#
+#    arch archname
+#[m[14;67H[K[14;67H21,1[11C3%[6;1H[?25h[?25l[1;13r[1;1H[3M[1;14r[11;1H[96m#       This must come before anything else in the kernel config.
+#
+#[m[14;67H[K[14;67H24,1[11C4%[6;1H[?25h[?25l[1;13r[1;1H[3M[1;14r[11;1H[96m# The syntax for including the system definition is:
+#
+#    include conf.kern[m[14;67H[K[14;67H27,1[11C4%[6;1H[?25h[?25l[1;13r[1;1H[3M[1;14r[11;1H[96m#
+#       This should come second, after the architecture. This is
+#       because the system must be defined before you can do much[m[14;67H[K[14;67H30,1[11C5%[6;1H[?25h[?25l[1;13r[1;1H[3M[1;14r[11;1H[96m#       else useful.
+#
+#       You can also include other files using the same syntax.[m[14;67H[K[14;67H33,1[11C6%[6;1H[?25h[?25l[1;13r[1;1H[3M[1;14r[11;1H[96m#
+#
+# The syntax for turning on a kernel compile option is:[m[14;67H[K[14;67H36,1[11C6%[6;1H[?25h[?25l[1;13r[1;1H[3M[1;14r[11;1H[96m#
+#    options optname
+#[m[14;67H[K[14;67H39,1[11C7%[6;1H[?25h[?25l[1;13r[1;1H[3M[1;14r[11;1H[96m#       A previous "defoption" must have been seen first. See below
+#       for more information.
+#[m[14;67H[K[14;67H42,1[11C8%[6;1H[?25h[?25l[1;13r[1;1H[3M[1;14r[11;1H[96m#       The act of compiling with debug info is (has to be) handled
+#       specially, and is just "debug" without the "options".
+#[m[14;67H[K[14;67H45,1[11C8%[6;1H[?25h[?25l[1;13r[1;1H[3M[1;14r[11;1H[96m#
+# The syntax for turning on a device driver is:
+#[m[14;67H[K[14;67H48,1[11C9%[6;1H[?25h[?25l[1;13r[1;1H[3M[1;14r[11;1H[96m#    device foo%
+#    device foo% at bar%
+#[m[14;67H[K[14;67H51,1[10C10%[6;1H[?25h[?25l[1;13r[1;1H[3M[1;14r[11;1H[96m#       where the % is either a number or a star, which is treated as
+#       a wildcard. The first line enables a device foo that is not
+#       supposed to be "attached" to anything. The second line enables[m[14;67H[K[14;67H54,1[10C10%[6;1H[?25h[?25l[1;13r[1;1H[3M[1;14r[11;1H[96m#       a device foo that is attached to a device bar. For more 
+#       information about what this means, see below.
+#[m[14;67H[K[14;67H57,1[10C11%[6;1H[?25h[?25l[1;13r[1;1H[3M[1;14r[11;1H[96m#
+############################################################
+#[m[14;67H[K[14;67H60,1[10C12%[6;1H[?25h[?25l[1;13r[1;1H[3M[1;14r[11;1H[96m# Kernel definition file syntax:
+#
+# Note: All source file names are relative to the top directory of the[m[14;67H[K[14;67H63,1[10C12%[6;1H[?25h[?25l[1;13r[1;1H[3M[1;14r[11;1H[96m# kernel source, that is, src/kern.
+# 
+# The syntax for adding a regular source file is:[m[14;67H[K[14;67H66,1[10C13%[6;1H[?25h[?25l[1;13r[1;1H[3M[1;14r[11;1H[96m#
+#    file sourcefile.c
+#[m[14;67H[K[14;67H69,1[10C14%[6;1H[?25h[?25l[1;13r[1;1H[3M[1;14r[11;1H[96m#       Such a file is always included automatically in every kernel.
+#
+#[m[14;67H[K[14;67H72,1[10C15%[6;1H[?25h[?25l[1;13r[1;1H[3M[1;14r[11;1H[96m# The syntax for defining optional source files is:
+#
+#    defoption optname[m[14;67H[K[14;67H75,1[10C15%[6;1H[?25h[?25l[1;13r[1;1H[3M[1;14r[11;1H[96m#    optfile optname sourcefile.c
+#    optofffile optname sourcefile.c
+#[m[14;67H[K[14;67H78,1[10C16%[6;1H[?25h[?25l[1;13r[1;1H[3M[1;14r[11;1H[96m#       "defoption" declares the name of a kernel option. These are
+#       then turned on by including "options optname" in a
+#       kernel config.[m[14;67H[K[14;67H81,1[10C17%[6;1H[?25h[?25l[1;13r[1;1H[3M[1;14r[11;1H[96m#
+#       Source files added with optfile are compiled in if the option
+#       specified is enabled. Source files added with optofffile are[m[14;67H[K[14;67H84,1[10C17%[6;1H[?25h[?25l[1;13r[1;1H[3M[1;14r[11;1H[96m#       compiled in if the option specified is not enabled.
+#
+#       Additionally, a file "opt-optname.h" is created in the compile[m[14;67H[K[14;67H87,1[10C18%[6;1H[?25h[?25l[1;13r[1;1H[3M[1;14r[11;1H[96m#       directory, which defines a C preprocessor symbol OPT_OPTNAME.
+#       This symbol is #defined to either 0 or 1 in the logical way.
+#       Thus, you can have small bits of code that are enabled or[m[14;67H[K[14;67H90,1[10C19%[6;1H[?25h[?25l[1;13r[1;1H[3M[1;14r[11;1H[96m#       disabled by particular options by writing constructs like
+#
+#            #include "opt-foo.h"[m[14;67H[K[14;67H93,1[10C19%[6;1H[?25h[?25l[1;13r[1;1H[3M[1;14r[11;1H[96m#            #if OPT_FOO
+#               code();
+#            #else[m[14;67H[K[14;67H96,1[10C20%[6;1H[?25h[?25l[1;13r[1;1H[3L[1;14r[1;1H[96m#       kernel config.
+#
+#       Source files added with optfile are compiled in if the option[m[14;67H[K[14;67H95,1[10C19%[8;1H[?25h[?25l[1;13r[1;1H[3L[1;14r[1;1H[96m#
+#       "defoption" declares the name of a kernel option. These are
+#       then turned on by including "options optname" in a[m[14;67H[K[14;67H92,1[10C19%[8;1H[?25h[?25l[1;13r[1;1H[3L[1;14r[1;1H[96m#    defoption optname
+#    optfile optname sourcefile.c
+#    optofffile optname sourcefile.c[m[14;67H[K[14;67H89,1[10C18%[8;1H[?25h[?25l[1;13r[1;1H[3L[1;14r[1;1H[96m#
+# The syntax for defining optional source files is:
+#[m[14;67H[K[14;67H86,1[10C17%[8;1H[?25h[?25l[1;13r[1;1H[3L[1;14r[1;1H[96m#
+#       Such a file is always included automatically in every kernel.
+#[m[14;67H[K[14;67H83,1[10C17%[8;1H[?25h[?25l[1;13r[1;1H[3L[1;14r[1;1H[96m# The syntax for adding a regular source file is:
+#
+#    file sourcefile.c[m[14;67H[K[14;67H80,1[10C16%[8;1H[?25h[?25l[1;13r[1;1H[3L[1;14r[1;1H[96m# Note: All source file names are relative to the top directory of the
+# kernel source, that is, src/kern.
+# [m[14;67H[K[14;67H77,1[10C15%[8;1H[?25h[?25l[1;13r[1;1H[3L[1;14r[1;1H[96m#
+# Kernel definition file syntax:
+#[m[14;67H[K[14;67H74,1[10C15%[8;1H[?25h[?25l[1;13r[1;1H[3L[1;14r[1;1H[96m#
+#
+############################################################[m[14;67H[K[14;67H71,1[10C14%[8;1H[?25h[?25l[1;13r[1;1H[3L[1;14r[1;1H[96m#       supposed to be "attached" to anything. The second line enables
+#       a device foo that is attached to a device bar. For more 
+#       information about what this means, see below.[m[14;67H[K[14;67H68,1[10C13%[8;1H[?25h[?25l[1;13r[1;1H[3L[1;14r[1;1H[96m#
+#       where the % is either a number or a star, which is treated as
+#       a wildcard. The first line enables a device foo that is not[m[14;67H[K[14;67H65,1[10C12%[8;1H[?25h[?25l[1;13r[1;1H[3L[1;14r[1;1H[96m#
+#    device foo%
+#    device foo% at bar%[m[14;67H[K[14;67H62,1[10C12%[8;1H[?25h[?25l[1;13r[1;1H[3L[1;14r[1;1H[96m#
+#
+# The syntax for turning on a device driver is:[m[14;67H[K[14;67H59,1[10C11%[8;1H[?25h[?25l[1;13r[1;1H[3L[1;14r[1;1H[96m#
+#       The act of compiling with debug info is (has to be) handled
+#       specially, and is just "debug" without the "options".[m[14;67H[K[14;67H56,1[10C10%[8;1H[?25h[?25l[1;13r[1;1H[3L[1;14r[1;1H[96m#
+#       A previous "defoption" must have been seen first. See below
+#       for more information.[m[14;67H[K[14;67H53,1[10C10%[8;1H[?25h[?25l[1;13r[1;1H[3L[1;14r[1;1H[96m# The syntax for turning on a kernel compile option is:
+#
+#    options optname[m[14;67H[K[14;67H50,1[11C9%[8;1H[?25h[?25l[1;13r[1;1H[3L[1;14r[1;1H[96m#       You can also include other files using the same syntax.
+#
+#[m[14;67H[K[14;67H47,1[11C8%[8;1H[?25h[?25l[1;13r[1;1H[3L[1;14r[1;1H[96m#       because the system must be defined before you can do much
+#       else useful.
+#[m[14;67H[K[14;67H44,1[11C8%[8;1H[?25h[?25l[1;13r[1;1H[3L[1;14r[1;1H[96m#    include conf.kern
+#
+#       This should come second, after the architecture. This is[m[14;67H[K[14;67H41,1[11C7%[8;1H[?25h[?25l[1;13r[1;1H[3L[1;14r[1;1H[96m#
+# The syntax for including the system definition is:
+#[m[14;67H[K[14;67H38,1[11C6%[8;1H[?25h[?25l[1;13r[1;1H[3L[1;14r[1;1H[96m#
+#       This must come before anything else in the kernel config.
+#[m[14;67H[K[14;67H35,1[11C6%[8;1H[?25h[?25l[1;13r[1;1H[3L[1;14r[1;1H[96m# The syntax for specifying the processor architecture to use is:
+#
+#    arch archname[m[14;67H[K[14;67H32,1[11C5%[8;1H[?25h[?25l[1;13r[1;1H[3L[1;14r[1;1H[96m#
+# Kernel config file syntax:
+#[m[14;67H[K[14;67H29,1[11C4%[8;1H[?25h[?25l[1;13r[1;1H[3L[1;14r[1;1H[96m#
+
+############################################################[m[14;67H[K[14;67H26,1[11C4%[8;1H[?25h[?25l[1;13r[1;1H[3L[1;14r[1;1H[96m# will likely make a mess and produce mysterious error messages.
+#
+# The documentation for the syntax of these files follows.[m[14;67H[K[14;67H23,1[11C3%[8;1H[?25h[?25l[1;13r[1;1H[3L[1;14r[1;1H[96m# right directory (the same one this file is in) and run it as
+# "./config", not just "config" - in the latter case you will
+# probably get the host system's kernel config utility, which[m[14;67H[K[14;67H20,0-1[9C2%[8;1H[?25h[?25l[1;13r[1;1H[3L[1;14r[1;1H[96m# others like it) and rerun the config script.
+#
+# Note: when running the config script, be sure to be in the[m[14;67H[K[14;67H17,1[11C2%[8;1H[?25h[?25l[1;13r[1;1H[3L[1;14r[1;1H[96m# facilities for a particular kernel build.
+#
+# To add new files to the system, you need to edit this file (or[m[14;67H[K[14;67H14,1[11C1%[8;1H[?25h[?25l[1;13r[1;1H[3L[1;14r[1;1H[96m# The idea is that the files, options, and facilities in the system
+# are declared by conf.kern and the various files it includes. Then
+# a kernel config (such as ASST1) is used to select options and [m[14;67H[K[14;67H11,1[11C0%[8;1H[?25h[?25l[1;13r[1;1H[3L[1;14r[1;1H[96m#
+# Machine-independent kernel config definitions.
+#[m[14;67H[K[14;67H8,1[11CTop[8;1H[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[14;57H^[[8;1H[14;57H  [8;1H[14;57H^[[8;1H[14;57H  [8;1H[?25h[?25l[14;57H^[[8;1H[14;57H  [8;1H[14;57H^[[8;1H[14;57H  [8;1H[?25h[?25l[14;57H![8;1H[?25h[?25l[14;58Hw[8;1H[14;57H  [8;1H[14;67H[K[14;1H:.![?25hq[?25l[14;4H[K[14;4H[?25h[?25l[14;3H[K[14;3H[?25h[?25l[14;2H[K[14;2H[?25hwq[?25l[?1006;1000l[?1002l[?2004l[>4;m"conf.kern" 453L, 14085B written[23;2t[23;1t
+[?1004l[?2004l[?1l>[?1049l[23;0;0t[?25h[>4;m[?2004h]0;john@debian: ~/cs161/src/kern/conf[01;32mjohn@debian[00m:[01;34m~/cs161/src/kern/conf[00m$ nano conf.kern
+[?2004l[?2004h[?1049h[22;0;0t[1;14r(B[m[4l[?7h[39;49m[?1h=[?1h=[?25l[39;49m(B[m[H[2J[12;36H(B[0;7m[ Reading... ](B[m[12;34H(B[0;7m[ Read 453 lines ](B[m[H(B[0;7m  GNU nano 8.4                          conf.kern                                   [1;83H(B[m[13d(B[0;7m^G(B[m Help[15G(B[0;7m^O(B[m Write Out  (B[0;7m^F(B[m Where Is   (B[0;7m^K(B[m Cut[13;57H(B[0;7m^T(B[m Execute    (B[0;7m^C(B[m Location[14d(B[0;7m^X(B[m Exit[15G(B[0;7m^R(B[m Read File  (B[0;7m^\(B[m Replace    (B[0;7m^U(B[m Paste[57G(B[0;7m^J(B[m Justify    (B[0;7m^/(B[m Go To Line[2d[36m#[3d# Machine-independent kernel config definitions.[4d#[5d# The idea is that the files, options, and facilities in the system[6d# are declared by conf.kern and the various files it includes. Then[7d# a kernel config (such as ASST1) is used to select options and [8d# facilities for a particular kernel build.[9d#[10d# To add new files to the system, you need to edit this file (or[11d# others like it) and rerun the config script.[2d[39m(B[m[?12l[?25h[?25l[?12l[?25h[3d[?25l[?12l[?25h[4d[?25l[?12l[?25h[5d[?25l[?12l[?25h[6d[?25l[?12l[?25h[7d[?25l[?12l[?25h[8d[?25l[?12l[?25h[9d[?25l[?12l[?25h[10d[?25l[?12l[?25h[11d[?25l[?12l[?25h7[2;11r8
+[1;14r[11;1H[36m#[39m(B[m[?25l[?12l[?25h7[2;11r8
+[1;14r[11;1H[36m# Note: when running the config script, be sure to be in the[39m(B[m[?25l[?12l[?25h7[2;11r8
+[1;14r[11;1H[36m# right directory (the same one this file is in) and run it as[39m(B[m[?25l[?12l[?25h7[2;11r8
+[1;14r[11;1H[36m# "./config", not just "config" - in the latter case you will[39m(B[m[?25l[?12l[?25h7[2;11r8
+[1;14r[11;1H[36m# probably get the host system's kernel config utility, which[39m(B[m[?25l[?12l[?25h7[2;11r8
+[1;14r[11;1H[36m# will likely make a mess and produce mysterious error messages.[39m(B[m[?25l[?12l[?25h7[2;11r8
+[1;14r[11;1H[36m#[39m(B[m[?25l[?12l[?25h7[2;11r8
+[1;14r[11;1H[36m# The documentation for the syntax of these files follows.[39m(B[m[?25l[?12l[?25h7[2;11r8
+[1;14r[11;1H[36m#[39m(B[m[?25l[?12l[?25h7[2;11r8
+[1;14r[11;1H[?25l[12d[K[?12l[?25h7[2;12r8
+[1;14r[11;1H[36m############################################################[39m(B[m[?25l[?12l[?25h7[2;12r8[12d
+[1;14r[11;1H[36m#[39m(B[m[?25l[?12l[?25h7[2;12r8[12d
+[1;14r[11;1H[36m# Kernel config file syntax:[39m(B[m[?25l[?12l[?25h7[2;12r8[12d
+[1;14r[11;1H[36m#[39m(B[m[?25l[?12l[?25h7[2;12r8[12d
+[1;14r[11;1H[36m# The syntax for specifying the processor architecture to use is:[39m(B[m[?25l[?12l[?25h7[2;12r8[12d
+[1;14r[11;1H[36m#[39m(B[m[?25l[?12l[?25h7[2;12r8[12d
+[1;14r[11;1H[36m#    arch archname[39m(B[m[?25l[?12l[?25h7[2;12r8[12d
+[1;14r[11;1H[36m#[39m(B[m[?25l[?12l[?25h7[2;12r8[12d
+[1;14r[11;1H[36m#       This must come before anything else in the kernel config.[39m(B[m[?25l[?12l[?25h7[2;12r8[12d
+[1;14r[11;1H[36m#[39m(B[m[?25l[?12l[?25h7[2;12r8[12d
+[1;14r[11;1H[36m#[39m(B[m[?25l[?12l[?25h7[2;12r8[12d
+[1;14r[11;1H[36m# The syntax for including the system definition is:[39m(B[m[?25l[?12l[?25h7[2;12r8[12d
+[1;14r[11;1H[36m#[39m(B[m[?25l[?12l[?25h7[2;12r8[12d
+[1;14r[11;1H[36m#    include conf.kern[39m(B[m[?25l[?12l[?25h7[2;12r8[12d
+[1;14r[11;1H[36m#[39m(B[m[?25l[?12l[?25h7[2;12r8[12d
+[1;14r[11;1H[36m#       This should come second, after the architecture. This is[39m(B[m[?25l[?12l[?25h7[2;12r8[12d
+[1;14r[11;1H[36m#       because the system must be defined before you can do much[39m(B[m[?25l[?12l[?25h7[2;12r8[12d
+[1;14r[11;1H[36m#       else useful.[39m(B[m[?25l[?12l[?25h7[2;12r8[12d
+[1;14r[11;1H[36m#[39m(B[m[?25l[?12l[?25h7[2;12r8[12d
+[1;14r[11;1H[36m#       You can also include other files using the same syntax.[39m(B[m[?25l[?12l[?25h7[2;12r8[12d
+[1;14r[11;1H[36m#[39m(B[m[?25l[?12l[?25h7[2;12r8[12d
+[1;14r[11;1H[36m#[39m(B[m[?25l[?12l[?25h7[2;12r8[12d
+[1;14r[11;1H[36m# The syntax for turning on a kernel compile option is:[39m(B[m[?25l[?12l[?25h7[2;12r8[12d
+[1;14r[11;1H[36m#[39m(B[m[?25l[?12l[?25h7[2;12r8[12d
+[1;14r[11;1H[36m#    options optname[39m(B[m[?25l[?12l[?25h7[2;12r8[12d
+[1;14r[11;1H[36m#[39m(B[m[?25l[?12l[?25h7[2;12r8[12d
+[1;14r[11;1H[36m#       A previous "defoption" must have been seen first. See below[39m(B[m[?25l[?12l[?25h7[2;12r8[12d
+[1;14r[11;1H[36m#       for more information.[39m(B[m[?25l[?12l[?25h7[2;12r8[12d
+[1;14r[11;1H[36m#[39m(B[m[?25l[?12l[?25h7[2;12r8[12d
+[1;14r[11;1H[36m#       The act of compiling with debug info is (has to be) handled[39m(B[m[?25l[?12l[?25h7[2;12r8[12d
+[1;14r[11;1H[36m#       specially, and is just "debug" without the "options".[39m(B[m[?25l[?12l[?25h7[2;12r8[12d
+[1;14r[11;1H[36m#[39m(B[m[?25l[?12l[?25h7[2;12r8[12d
+[1;14r[11;1H[36m#[39m(B[m[?25l[?12l[?25h7[2;12r8[12d
+[1;14r[11;1H[36m# The syntax for turning on a device driver is:[39m(B[m[?25l[?12l[?25h7[2;12r8[12d
+[1;14r[11;1H[36m#[39m(B[m[?25l[?12l[?25h7[2;12r8[12d
+[1;14r[11;1H[36m#    device foo%[39m(B[m[?25l[?12l[?25h7[2;12r8[12d
+[1;14r[11;1H[36m#    device foo% at bar%[39m(B[m[?25l[?12l[?25h7[2;12r8[12d
+[1;14r[11;1H[36m#[39m(B[m[?25l[?12l[?25h7[2;12r8[12d
+[1;14r[11;1H[36m#       where the % is either a number or a star, which is treated as[39m(B[m[?25l[?12l[?25h7[2;12r8[12d
+[1;14r[11;1H[36m#       a wildcard. The first line enables a device foo that is not[39m(B[m[?25l[?12l[?25h7[2;12r8[12d
+[1;14r[11;1H[36m#       supposed to be "attached" to anything. The second line enables[39m(B[m[?25l[?12l[?25h7[2;12r8[12d
+[1;14r[11;1H[36m#       a device foo that is attached to a device bar. For more [39m(B[m[?25l[?12l[?25h7[2;12r8[12d
+[1;14r[11;1H[36m#       information about what this means, see below.[39m(B[m[?25l[?12l[?25h7[2;12r8[12d
+[1;14r[11;1H[36m#[39m(B[m[?25l[?12l[?25h7[2;12r8[12d
+[1;14r[11;1H[36m#[39m(B[m[?25l[?12l[?25h7[2;12r8[12d
+[1;14r[11;1H[36m############################################################[39m(B[m[?25l[?12l[?25h7[2;12r8[12d
+[1;14r[11;1H[36m#[39m(B[m[?25l[?12l[?25h7[2;12r8[12d
+[1;14r[11;1H[36m# Kernel definition file syntax:[39m(B[m[?25l[?12l[?25h7[2;12r8[12d
+[1;14r[11;1H[36m#[39m(B[m[?25l[?12l[?25h7[2;12r8[12d
+[1;14r[11;1H[36m# Note: All source file names are relative to the top directory of the[39m(B[m[?25l[?12l[?25h7[2;12r8[12d
+[1;14r[11;1H[36m# kernel source, that is, src/kern.[39m(B[m[?25l[?12l[?25h7[2;12r8[12d
+[1;14r[11;1H[36m# [39m(B[m[?25l[?12l[?25h7[2;12r8[12d
+[1;14r[11;1H[36m# The syntax for adding a regular source file is:[39m(B[m[?25l[?12l[?25h7[2;12r8[12d
+[1;14r[11;1H[36m#[39m(B[m[?25l[?12l[?25h7[2;12r8[12d
+[1;14r[11;1H[36m#    file sourcefile.c[39m(B[m[?25l[?12l[?25h7[2;12r8[12d
+[1;14r[11;1H[36m#[39m(B[m[?25l[?12l[?25h7[2;12r8[12d
+[1;14r[11;1H[36m#       Such a file is always included automatically in every kernel.[39m(B[m[?25l[?12l[?25h7[2;12r8[12d
+[1;14r[11;1H[36m#[39m(B[m[?25l[?12l[?25h7[2;12r8[12d
+[1;14r[11;1H[36m#[39m(B[m[?25l[?12l[?25h7[2;12r8[12d
+[1;14r[11;1H[36m# The syntax for defining optional source files is:[39m(B[m[?25l[?12l[?25h7[2;12r8[12d
+[1;14r[11;1H[36m#[39m(B[m[?25l[?12l[?25h7[2;12r8[12d
+[1;14r[11;1H[36m#    defoption optname[39m(B[m[?25l[?12l[?25h7[2;12r8[12d
+[1;14r[11;1H[36m#    optfile optname sourcefile.c[39m(B[m[?25l[?12l[?25h7[2;12r8[12d
+[1;14r[11;1H[36m#    optofffile optname sourcefile.c[39m(B[m[?25l[?12l[?25h7[2;12r8[12d
+[1;14r[11;1H[36m#[39m(B[m[?25l[?12l[?25h7[2;12r8[12d
+[1;14r[11;1H[36m#       "defoption" declares the name of a kernel option. These are[39m(B[m[?25l[?12l[?25h7[2;12r8[12d
+[1;14r[11;1H[36m#       then turned on by including "options optname" in a[39m(B[m[?25l[?12l[?25h7[2;12r8[12d
+[1;14r[11;1H[36m#       kernel config.[39m(B[m[?25l[?12l[?25h7[2;12r8[12d
+[1;14r[11;1H[36m#[39m(B[m[?25l[?12l[?25h7[2;12r8[12d
+[1;14r[11;1H[36m#       Source files added with optfile are compiled in if the option[39m(B[m[?25l[?12l[?25h7[2;12r8[12d
+[1;14r[11;1H[36m#       specified is enabled. Source files added with optofffile are[39m(B[m[?25l[?12l[?25h7[2;12r8[12d
+[1;14r[11;1H[36m#       compiled in if the option specified is not enabled.[39m(B[m[?25l[?12l[?25h7[2;12r8[12d
+[1;14r[11;1H[36m#[39m(B[m[?25l[?12l[?25h7[2;12r8[12d
+[1;14r[11;1H[36m#       Additionally, a file "opt-optname.h" is created in the compile[39m(B[m[?25l[?12l[?25h7[2;12r8[12d
+[1;14r[11;1H[36m#       directory, which defines a C preprocessor symbol OPT_OPTNAME.[39m(B[m[?25l[?12l[?25h7[2;12r8[12d
+[1;14r[11;1H[36m#       This symbol is #defined to either 0 or 1 in the logical way.[39m(B[m[?25l[?12l[?25h7[2;12r8[12d
+[1;14r[11;1H[36m#       Thus, you can have small bits of code that are enabled or[39m(B[m[?25l[?12l[?25h7[2;12r8[12d
+[1;14r[11;1H[36m#       disabled by particular options by writing constructs like[39m(B[m[?25l[?12l[?25h7[2;12r8[12d
+[1;14r[11;1H[36m#[39m(B[m[?25l[?12l[?25h7[2;12r8[12d
+[1;14r[11;1H[36m#            #include "opt-foo.h"[39m(B[m[?25l[?12l[?25h7[2;12r8[12d
+[1;14r[11;1H[36m#            #if OPT_FOO[39m(B[m[?25l[?12l[?25h7[2;12r8[12d
+[1;14r[11;1H[36m#[15X[11;17Hcode();[39m(B[m[?25l[?12l[?25h7[2;12r8[12d
+[1;14r[11;1H[36m#            #else[39m(B[m[?25l[?12l[?25h7[2;12r8[12d
+[1;14r[11;1H[36m#[15X[11;17Hother_code();[39m(B[m[?25l[?12l[?25h7[2;12r8[12d
+[1;14r[11;1H[36m#            #endif[39m(B[m[?25l[?12l[?25h7[2;12r8[12d
+[1;14r[11;1H[36m#[39m(B[m[?25l[?12l[?25h7[2;12r8[12d
+[1;14r[11;1H[36m#       *** Be sure to use #if and not #ifdef - you want the value[39m(B[m[?25l[?12l[?25h7[2;12r8[12d
+[1;14r[11;1H[36m#           of the symbol.[39m(B[m[?25l[?12l[?25h7[2;12r8[12d
+[1;14r[11;1H[36m#       *** Be sure to remember to include the header file for the[39m(B[m[?25l[?12l[?25h7[2;12r8[12d
+[1;14r[11;1H[36m#           option - if you don't, cpp will silently assume it is 0,[39m(B[m[?25l[?12l[?25h7[2;12r8[12d
+[1;14r[11;1H[36m#           which can be quite frustrating.[39m(B[m[?25l[?12l[?25h7[2;12r8[12d
+[1;14r[11;1H[36m#[39m(B[m[?25l[?12l[?25h7[2;12r8[12d
+[1;14r[11;1H[36m#       The defoption must be seen before any optional file [39m(B[m[?25l[?12l[?25h7[2;12r8[12d
+[1;14r[11;1H[36m#       declarations that use it.[39m(B[m[?25l[?12l[?25h7[2;12r8[12d
+[1;14r[11;1H[36m#[39m(B[m[?25l[?12l[?25h7[2;12r8[12d
+[1;14r[11;1H[36m#[39m(B[m[?25l[?12l[?25h7[2;12r8[12d
+[1;14r[11;1H[36m# The syntax for defining device drivers is:[39m(B[m[?25l[?12l[?25h7[2;12r8[12d
+[1;14r[11;1H[36m#[39m(B[m[?25l[?12l[?25h7[2;12r8[12d
+[1;14r[11;1H[36m#    defdevice devname[18X[11;41Hsourcefile.c[39m(B[m[?25l[?12l[?25h7[2;12r8[12d
+[1;14r[11;1H[36m#    defattach devname% otherdevname%   sourcefile.c[39m(B[m[?25l[?12l[?25h7[2;12r8[12d
+[1;14r[11;1H[36m#    pseudoattach devname%[39m(B[m[?25l[?12l[?25h7[2;12r8[12d
+[1;14r[11;1H[36m#[39m(B[m[?25l[?12l[?25h7[2;12r8[12d
+[1;14r[11;1H[36m#       Declare a device driver and its "attachment(s)". (The device[39m(B[m[?25l[?12l[?25h7[2;12r8[12d
+[1;14r[11;1H[36m#       driver can then be selectively included or not included in any[39m(B[m[?25l[?12l[?25h7[2;12r8[12d[2S[1;14r[10;1H[36m#       particular kernel by using the "device" statement in the[11d#       kernel config file.)[39m(B[m[?25l[?12l[?25h7[2;12r8[12d
+[1;14r[11;1H[36m#[39m(B[m[?25l[?12l[?25h7[2;12r8[12d
+[1;14r[11;1H[36m#       The specified source files are only compiled if the device[39m(B[m[?25l[?12l[?25h7[2;12r8[12d
+[1;14r[11;1H[36m#       is enabled.[39m(B[m[?25l[?12l[?25h7[2;12r8[12d
+[1;14r[11;1H[36m#[39m(B[m[?25l[?12l[?25h7[2;12r8[12d
+[1;14r[11;1H[36m#       The % is either a specific number N, meaning "only the Nth[39m(B[m[?25l[?12l[?25h7[2;12r8[12d
+[1;14r[11;1H[36m#       such device can be attached this way", or a star (*), meaning[39m(B[m[?25l[?12l[?25h7[2;12r8[12d
+[1;14r[11;1H[36m#       "any such device can be attached this way".[39m(B[m[?25l[?12l[?25h7[2;12r8[12d
+[1;14r[11;1H[36m#[39m(B[m[?25l[?12l[?25h7[2;12r8[12d
+[1;14r[11;1H[36m#       In OS/161, device drivers are conceptually organized into[39m(B[m[?25l[?12l[?25h7[2;12r8[12d
+[1;14r[11;1H[36m#       trees. This mimics the organization of real hardware, where[39m(B[m[?25l[?12l[?25h7[2;12r8[12d
+[1;14r[11;1H[36m#       several expansion cards are plugged into one bus and there[39m(B[m[?25l[?12l[?25h7[2;12r8[12d
+[1;14r[11;1H[36m#       might be several devices on each expansion card and so forth.[39m(B[m[?25l[?12l[?25h7[2;12r8[12d
+[1;14r[11;1H[36m#[39m(B[m[?25l[?12l[?25h7[2;12r8[12d
+[1;14r[11;1H[36m#       There can be any number of these trees. However, devices at[39m(B[m[?25l[?12l[?25h7[2;12r8[12d
+[1;14r[11;1H[36m#       the root of each tree must be able to probe and "find"[39m(B[m[?25l[?12l[?25h7[2;12r8[12d
+[1;14r[11;1H[36m#       themselves completely on their own. This generally means that[39m(B[m[?25l[?12l[?25h7[2;12r8[12d
+[1;14r[11;1H[36m#       they are either all software with no hardware, or they are the[39m(B[m[?25l[?12l[?25h7[2;12r8[12d
+[1;14r[11;1H[36m#       system main bus which is located in a machine-dependent way.[39m(B[m[?25l[?12l[?25h7[2;12r8[12d
+[1;14r[11;1H[36m#[39m(B[m[?25l[?12l[?25h7[2;12r8[12d
+[1;14r[11;1H[36m#       Software-only devices are known as "pseudo-devices". These[39m(B[m[?25l[?12l[?25h7[2;12r8[12d
+[1;14r[11;1H[36m#       are "attached" with the pseudoattach directive; functions[39m(B[m[?25l[?12l[?25h7[2;12r8[12d
+[1;14r[11;1H[36m#       of the form[39m(B[m[?25l[?12l[?25h7[2;12r8[12d
+[1;14r[11;1H[36m#[39m(B[m[?25l[?12l[?25h7[2;12r8[12d
+[1;14r[11;1H[36m#           pseudoattach_devname[39m(B[m[?25l[?12l[?25h7[2;12r8[12d
+[1;14r[11;1H[36m#[39m(B[m[?25l[?12l[?25h7[2;12r8[12d
+[1;14r[11;1H[36m#       are called from autoconf.c to create instances as requested.[39m(B[m[?25l[?12l[?25h7[2;12r8[12d
+[1;14r[11;1H[36m#       These calls are made from the function pseudoconfig(), which[39m(B[m[?25l[?12l[?25h7[2;12r8[12d
+[1;14r[11;1H[36m#       should be called from dev/init.c after hardware device [39m(B[m[?25l[?12l[?25h7[2;12r8[12d
+[1;14r[11;1H[36m#       initialization completes. The pseudoattach functions should[39m(B[m[?25l[?12l[?25h7[2;12r8[12d
+[1;14r[11;1H[36m#       perform all setup and initialization necessary. (No[39m(B[m[?25l[?12l[?25h7[2;12r8[12d
+[1;14r[11;1H[36m#       config_devname function will be called.)[39m(B[m[?25l[?12l[?25h7[2;12r8[12d
+[1;14r[11;1H[36m#[39m(B[m[?25l[?12l[?25h7[2;12r8[12d
+[1;14r[11;1H[36m#       Devices with attachments are automatically probed and [39m(B[m[?25l[?12l[?25h7[2;12r8[12d
+[1;14r[11;1H[36m#       configured from code in autoconf.c. This file is generated[39m(B[m[?25l[?12l[?25h7[2;12r8[12d
+[1;14r[11;1H[36m#       by the config script. It contains functions called[39m(B[m[?25l[?12l[?25h7[2;12r8[12d
+[1;14r[11;1H[36m#       "autoconf_devname", for each device. These functions call[39m(B[m[?25l[?12l[?25h7[2;12r8[12d
+[1;14r[11;1H[36m#       other functions, which are supplied by device drivers,[39m(B[m[?25l[?12l[?25h7[2;12r8[12d
+[1;14r[11;1H[36m#       which have the following hardwired names:[39m(B[m[?25l[?12l[?25h7[2;12r8[12d
+[1;14r[11;1H[36m#[39m(B[m[?25l[?12l[?25h7[2;12r8[12d
+[1;14r[11;1H[36m#           attach_devname1_to_devname2[39m(B[m[?25l[?12l[?25h7[2;12r8[12d
+[1;14r[11;1H[36m#[39m(B[m[?25l[?12l[?25h7[2;12r8[12d
+[1;14r[11;1H[36m#[17X[11;19HA "devname2" device has been found and configured;[39m(B[m[?25l[?12l[?25h7[2;12r8[12d
+[1;14r[11;1H[36m#[17X[11;19Hthis function attempts to probe the devname2 for[39m(B[m[?25l[?12l[?25h7[2;12r8[12d
+[1;14r[11;1H[36m#[17X[11;19Ha "devname1" device. Returns NULL if nothing was[39m(B[m[?25l[?12l[?25h7[2;12r8[12d
+[1;14r[11;1H[36m#[17X[11;19Hfound.[39m(B[m[?25l[?12l[?25h7[2;12r8[12d
+[1;14r[11;1H[36m#[39m(B[m[?25l[?12l[?25h7[2;12r8[12d
+[1;14r[11;1H[36m#           config_devname[39m(B[m[?25l[?12l[?25h7[2;12r8[12d
+[1;14r[11;1H[36m#[39m(B[m[?25l[?12l[?25h7[2;12r8[12d
+[1;14r[11;1H[36m#[17X[11;19HA "devname" device has been found. This function[39m(B[m[?25l[?12l[?25h7[2;12r8[12d
+[1;14r[11;1H[36m#[17X[11;19Hcan then perform initialization that's shared[39m(B[m[?25l[?12l[?25h7[2;12r8[12d
+[1;14r[11;1H[36m#[17X[11;19Hamong all the possible things it can be attached[39m(B[m[?25l[?12l[?25h7[2;12r8[12d
+[1;14r[11;1H[36m#[17X[11;19Hto.[39m(B[m[?25l[?12l[?25h7[2;12r8[12d
+[1;14r[11;1H[36m#[39m(B[m[?25l[?12l[?25h7[2;12r8[12d
+[1;14r[11;1H[36m#       The idea is that there can be multiple attachments for[39m(B[m[?25l[?12l[?25h7[2;12r8[12d
+[1;14r[11;1H[36m#       the same device to different underlying devices. In the[39m(B[m[?25l[?12l[?25h7[2;12r8[12d
+[1;14r[11;1H[36m#       real world this can be used to great effect when you have,[39m(B[m[?25l[?12l[?25h7[2;12r8[12d
+[1;14r[11;1H[36m#       for instance, the same ethernet chipset used on both PCI[39m(B[m[?25l[?12l[?25h7[2;12r8[12d
+[1;14r[11;1H[36m#       and ISA cards - the chipset behaves the same way in both[39m(B[m[?25l[?12l[?25h7[2;12r8[12d
+[1;14r[11;1H[36m#       cases, but the probe and attach logic is very different.[39m(B[m[?25l[?12l[?25h7[2;12r8[12d
+[1;14r[11;1H[36m#[39m(B[m[?25l[?12l[?25h7[2;12r8[12d
+[1;14r[11;1H[36m#       The attach_foo_to_bar functions are put in the files[39m(B[m[?25l[?12l[?25h7[2;12r8[12d
+[1;14r[11;1H[36m#       specified with defattach; the config_foo function (and[39m(B[m[?25l[?12l[?25h7[2;12r8[12d
+[1;14r[11;1H[36m#       generally the rest of the driver for the foo device) is[39m(B[m[?25l[?12l[?25h7[2;12r8[12d
+[1;14r[11;1H[36m#       put in the file specified with defdevice.[39m(B[m[?25l[?12l[?25h7[2;12r8[12d
+[1;14r[11;1H[36m#[39m(B[m[?25l[?12l[?25h7[2;12r8[12d
+[1;14r[11;1H[36m#       One selects particular attachments when including the device[39m(B[m[?25l[?12l[?25h7[2;12r8[12d
+[1;14r[11;1H[36m#       in the kernel. A top-level device with no attachments should[39m(B[m[?25l[?12l[?25h7[2;12r8[12d
+[1;14r[11;1H[36m#       be included with this syntax:[39m(B[m[?25l[?12l[?25h7[2;12r8[12d
+[1;14r[11;1H[36m#[39m(B[m[?25l[?12l[?25h7[2;12r8[12d
+[1;14r[11;1H[36m#[14X[11;16Hdevice bar[39m(B[m[?25l[?12l[?25h7[2;12r8[12d
+[1;14r[11;1H[36m#[39m(B[m[?25l[?12l[?25h7[2;12r8[12d
+[1;14r[11;1H[36m#       A pseudo-device should be included with this syntax:[39m(B[m[?25l[?12l[?25h7[2;12r8[12d
+[1;14r[11;1H[36m#[39m(B[m[?25l[?12l[?25h7[2;12r8[12d
+[1;14r[11;1H[36m#[14X[11;16Hdevice bar0[39m(B[m[?25l[?12l[?25h7[2;12r8[12d
+[1;14r[11;1H[36m#[39m(B[m[?25l[?12l[?25h7[2;12r8[12d
+[1;14r[11;1H[36m#       To make use of device foo, which can be found attached to[39m(B[m[?25l[?12l[?25h7[2;12r8[12d
+[1;14r[11;1H[36m#       device bar, one of the following syntaxes is used:[39m(B[m[?25l[?12l[?25h7[2;12r8[12d
+[1;14r[11;1H[36m#[39m(B[m[?25l[?12l[?25h7[2;12r8[12d
+[1;14r[11;1H[36m#[14X[11;16Hdevice foo* at bar*[39m(B[m[?25l[?12l[?25h7[2;12r8[12d
+[1;14r[11;1H[36m#[14X[11;16Hdevice foo* at bar0[39m(B[m[?25l[?12l[?25h7[2;12r8[12d
+[1;14r[11;1H[36m#[14X[11;16Hdevice foo0 at bar*[39m(B[m[?25l[?12l[?25h7[2;12r8[12d
+[1;14r[11;1H[36m#[14X[11;16Hdevice foo0 at bar0[39m(B[m[?25l[?12l[?25h7[2;12r8[12d
+[1;14r[11;1H[36m#[39m(B[m[?25l[?12l[?25h7[2;12r8[12d
+[1;14r[11;1H[36m#       depending on to what extent you want to configure only a[39m(B[m[?25l[?12l[?25h7[2;12r8[12d
+[1;14r[11;1H[36m#       specific device number.[39m(B[m[?25l[?12l[?25h7[2;12r8[12d
+[1;14r[11;1H[36m#[39m(B[m[?25l[?12l[?25h7[2;12r8[12d
+[1;14r[11;1H[36m#       It sometimes matters what order things are handled in; probes[39m(B[m[?25l[?12l[?25h7[2;12r8[12d
+[1;14r[11;1H[36m#       occur more or less in the order things appear in the config,[39m(B[m[?25l[?12l[?25h7[2;12r8[12d
+[1;14r[11;1H[36m#       as constrained by the tree structure of the available devices.[39m(B[m[?25l[?12l[?25h7[2;12r8[12d
+[1;14r[11;1H[36m#[39m(B[m[?25l[?12l[?25h7[2;12r8[12d
+[1;14r[11;1H[36m#       Note that OS/161 does not make extensive use of this [39m(B[m[?25l[?12l[?25h7[2;12r8[12d
+[1;14r[11;1H[36m#       functionality, and the device driver architecture outlined [39m(B[m[?25l[?12l[?25h7[2;12r8[12d
+[1;14r[11;1H[36m#       here is overkill for such a limited environment as System/161.[39m(B[m[?25l[?12l[?25h7[2;12r8[12d
+[1;14r[11;1H[36m#       However, it's similar to the way real systems are organized.[39m(B[m[?25l[?12l[?25h7[2;12r8[12d
+[1;14r[11;1H[36m#[39m(B[m[?25l[?12l[?25h7[2;12r8[12d
+[1;14r[11;1H[36m#[39m(B[m[?25l[?12l[?25h7[2;12r8[12d
+[1;14r[11;1H[36m# The syntax for including other config/definition files is:[39m(B[m[?25l[?12l[?25h7[2;12r8[12d
+[1;14r[11;1H[36m#[39m(B[m[?25l[?12l[?25h7[2;12r8[12d
+[1;14r[11;1H[36m#    include filename[39m(B[m[?25l[?12l[?25h7[2;12r8[12d
+[1;14r[11;1H[36m#    archinclude arch-filename[39m(B[m[?25l[?12l[?25h7[2;12r8[12d[2S[1;14r[10;1H[36m#[11d#       In the first form, the filename is relative to the top of[39m(B[m[?25l[?12l[?25h7[2;12r8[12d
+[1;14r[11;1H[36m#       the kernel source tree.[39m(B[m[?25l[?12l[?25h7[2;12r8[12d
+[1;14r[11;1H[36m#[39m(B[m[?25l[?12l[?25h7[2;12r8[12d
+[1;14r[11;1H[36m#       In the second form, the arch-filename is relative to the[39m(B[m[?25l[?12l[?25h7[2;12r8[12d
+[1;14r[11;1H[36m#       top directory of the architecture-specific area for the[39m(B[m[?25l[?12l[?25h7[2;12r8[12d
+[1;14r[11;1H[36m#       selected architecture.[39m(B[m[?25l[?12l[?25h7[2;12r8[12d
+[1;14r[11;1H[36m#[39m(B[m[?25l[?12l[?25h7[2;12r8[12d
+[1;14r[11;1H[36m#       Thus, if the architecture is "mips", [39m(B[m[?25l[?12l[?25h7[2;12r8[12d
+[1;14r[11;1H[36m#          include conf/conf.foo     includes src/kern/conf/conf.foo[39m(B[m[?25l[?12l[?25h7[2;12r8[12d
+[1;14r[11;1H[36m#          archinclude conf/conf.bar includes src/kern/arch/mips/conf/conf.bar[39m(B[m[?25l[?12l[?25h7[2;12r8[12d
+[1;14r[11;1H[36m#[39m(B[m[?25l[?12l[?25h7[2;12r8[12d
+[1;14r[11;1H[36m#[39m(B[m[?25l[?12l[?25h7[2;12r8[12d
+[1;14r[11;1H[36m############################################################[39m(B[m[?25l[?12l[?25h7[2;12r8[12d
+[1;14r[11;1H[?25l[?12l[?25h7[2;12r8[12d
+[1;14r[11;1H[?25l[?12l[?25h7[2;12r8[12d
+[1;14r[11;1H[36m########################################[39m(B[m[?25l[?12l[?25h7[2;12r8[12d
+[1;14r[11;1H[36m#[38X[11;40H#[39m(B[m[?25l[?12l[?25h7[2;12r8[12d
+[1;14r[11;1H[36m# Generic machine-independent devices. #[39m(B[m[?25l[?12l[?25h7[2;12r8[12d
+[1;14r[11;1H[36m#[38X[11;40H#[39m(B[m[?25l[?12l[?25h7[2;12r8[12d
+[1;14r[11;1H[36m########################################[39m(B[m[?25l[?12l[?25h7[2;12r8[12d
+[1;14r[11;1H[?25l[?12l[?25h7[2;12r8[12d
+[1;14r[11;1H[36m#[39m(B[m[?25l[?12l[?25h7[2;12r8[12d
+[1;14r[11;1H[36m# These are abstract system services we expect the system hardware to[39m(B[m[?25l[?12l[?25h7[2;12r8[12d
+[1;14r[11;1H[36m# provide: beeping, system console I/O, and time of day clock.[39m(B[m[?25l[?12l[?25h7[2;12r8[12d
+[1;14r[11;1H[36m#[39m(B[m[?25l[?12l[?25h7[2;12r8[12d
+[1;14r[11;1H[36m# These come before the archinclude so that the hardware device[39m(B[m[?25l[?12l[?25h7[2;12r8[12d
+[1;14r[11;1H[36m# definitions, which are included from there, can define attachments[39m(B[m[?25l[?12l[?25h7[2;12r8[12d
+[1;14r[11;1H[36m# for them.[39m(B[m[?25l[?12l[?25h7[2;12r8[12d
+[1;14r[11;1H[36m# [39m(B[m[?25l[?12l[?25h7[2;12r8[12d
+[1;14r[11;1H[?25l[?12l[?25h7[2;12r8[12d
+[1;14r[11;1Hdefdevice[17Gbeep[38;5;208m[20X[11;41H[39m(B[mdev/generic/beep.c[?25l[?12l[?25h7[2;12r8[12d
+[1;14r[11;1Hdefdevice[38;5;208m       [39m(B[mcon[38;5;208m[21X[11;41H[39m(B[mdev/generic/console.c[?25l[?12l[?25h7[2;12r8[12d
+[1;14r[11;1Hdefdevice[17Grtclock[11;41Hdev/generic/rtclock.c[?25l[?12l[?25h7[2;12r8[12d
+[1;14r[11;1Hdefdevice[17Grandom[11;41Hdev/generic/random.c[?25l[?12l[?25h7[2;12r8[12d
+[1;14r[11;1H[?25l[?12l[?25h7[2;12r8[12d
+[1;14r[11;1H[36m#[39m(B[m[?25l[?12l[?25h7[2;12r8[12d
+[1;14r[11;1H[36m# Random number generator for when there's no hardware random device.[39m(B[m[?25l[?12l[?25h7[2;12r8[12d
+[1;14r[11;1H[36m# Use "pseudoattach" because it's an all-software ("pseudo-") device.[39m(B[m[?25l[?12l[?25h7[2;12r8[12d
+[1;14r[11;1H[36m# (It's also a pseudo-random generator, but the two uses of pseudo are[39m(B[m[?25l[?12l[?25h7[2;12r8[12d
+[1;14r[11;1H[36m# unrelated.)[39m(B[m[?25l[?12l[?25h7[2;12r8[12d
+[1;14r[11;1H[36m#[39m(B[m[?25l[?12l[?25h7[2;12r8[12d
+[1;14r[11;1H[?25l[?12l[?25h7[2;12r8[12d
+[1;14r[11;1Hdefdevice[38;5;208m       [39m(B[mpseudorand[38;5;208m[14X[11;41H[39m(B[mdev/generic/pseudorand.c[?25l[?12l[?25h7[2;12r8[12d
+[1;14r[11;1Hpseudoattach    pseudorand[?25l[?12l[?25h7[2;12r8[12d
+[1;14r[11;1Hdefattach[38;5;208m       [39m(B[mrandom0 pseudorand0[38;5;208m     [39m(B[mdev/generic/pseudorand_att.c[?25l[?12l[?25h7[2;12r8[12d
+[1;14r[11;1H[?25l[?12l[?25h7[2;12r8[12d
+[1;14r[11;1H[36m########################################[39m(B[m[?25l[?12l[?25h7[2;12r8[12d
+[1;14r[11;1H[36m#[38X[11;40H#[39m(B[m[?25l[?12l[?25h7[2;12r8[12d
+[1;14r[11;1H[36m#        Machine-dependent stuff       #[39m(B[m[?25l[?12l[?25h7[2;12r8[12d
+[1;14r[11;1H[36m#[38X[11;40H#[39m(B[m[?25l[?12l[?25h7[2;12r8[12d
+[1;14r[11;1H[36m########################################[39m(B[m[?25l[?12l[?25h7[2;12r8[12d
+[1;14r[11;1H[?25l[?12l[?25h7[2;12r8[12d
+[1;14r[11;1H[36m#[39m(B[m[?25l[?12l[?25h7[2;12r8[12d
+[1;14r[11;1H[36m# Get the definitions for whatever the architecture is from [39m(B[m[?25l[?12l[?25h7[2;12r8[12d
+[1;14r[11;1H[36m# conf.arch in the architecture's conf directory.[39m(B[m[?25l[?12l[?25h7[2;12r8[12d
+[1;14r[11;1H[36m#[39m(B[m[?25l[?12l[?25h7[2;12r8[12d
+[1;14r[11;1H[36m# This will declare a bunch of machine-dependent source files and also[39m(B[m[?25l[?12l[?25h7[2;12r8[12d
+[1;14r[11;1H[36m# declare all the hardware devices (since what sorts of hardware we[39m(B[m[?25l[?12l[?25h7[2;12r8[12d
+[1;14r[11;1H[36m# expect to find is machine-dependent.)[39m(B[m[?25l[?12l[?25h7[2;12r8[12d
+[1;14r[11;1H[36m# [39m(B[m[?25l[?12l[?25h7[2;12r8[12d
+[1;14r[11;1H[?25l[?12l[?25h7[2;12r8[12d
+[1;14r[11;1Harchinclude   conf/conf.arch[?25l[?12l[?25h7[2;12r8[12d
+[1;14r[11;1H[?25l[?12l[?25h7[2;12r8[12d
+[1;14r[11;1H[36m########################################[39m(B[m[?25l[?12l[?25h7[2;12r8[12d
+[1;14r[11;1H[36m#[38X[11;40H#[39m(B[m[?25l[?12l[?25h7[2;12r8[12d
+[1;14r[11;1H[36m#            Support code[14X[11;40H#[39m(B[m[?25l[?12l[?25h7[2;12r8[12d
+[1;14r[11;1H[36m#[38X[11;40H#[39m(B[m[?25l[?12l[?25h7[2;12r8[12d
+[1;14r[11;1H[36m########################################[39m(B[m[?25l[?12l[?25h7[2;12r8[12d
+[1;14r[11;1H[?25l[?12l[?25h7[2;12r8[12d
+[1;14r[11;1H[36m#[39m(B[m[?25l[?12l[?25h7[2;12r8[12d
+[1;14r[11;1H[36m# Kernel utility code[39m(B[m[?25l[?12l[?25h7[2;12r8[12d
+[1;14r[11;1H[36m# [39m(B[m[?25l[?12l[?25h7[2;12r8[12d
+[1;14r[11;1H[?25l[?12l[?25h7[2;12r8[12d
+[1;14r[11;1Hfile[11Glib/array.c[?25l[?12l[?25h7[2;12r8[12d
+[1;14r[11;1Hfile[11Glib/bitmap.c[?25l[?12l[?25h7[2;12r8[12d
+[1;14r[11;1Hfile[11Glib/queue.c[?25l[?12l[?25h7[2;12r8[12d
+[1;14r[11;1Hfile[11Glib/kheap.c[?25l[?12l[?25h7[2;12r8[12d
+[1;14r[11;1Hfile[11Glib/kprintf.c[?25l[?12l[?25h7[2;12r8[12d
+[1;14r[11;1Hfile[11Glib/kgets.c[?25l[?12l[?25h7[2;12r8[12d
+[1;14r[11;1Hfile[11Glib/misc.c[?25l[?12l[?25h7[2;12r8[12d
+[1;14r[11;1H[?25l[?12l[?25h7[2;12r8[12d
+[1;14r[11;1H[36m#[39m(B[m[?25l[?12l[?25h7[2;12r8[12d
+[1;14r[11;1H[36m# Standard C functions[39m(B[m[?25l[?12l[?25h7[2;12r8[12d
+[1;14r[11;1H[36m# [39m(B[m[?25l[?12l[?25h7[2;12r8[12d
+[1;14r[11;1H[36m# For most of these, we take the source files from our libc.  Note[39m(B[m[?25l[?12l[?25h7[2;12r8[12d
+[1;14r[11;1H[36m# that those files have to have been hacked a bit to support this.[39m(B[m[?25l[?12l[?25h7[2;12r8[12d
+[1;14r[11;1H[36m#[39m(B[m[?25l[?12l[?25h7[2;12r8[12d
+[1;14r[11;1H[?25l[?12l[?25h7[2;12r8[12d
+[1;14r[11;1Hfile[11Glib/ntoh.c[?25l[?12l[?25h7[2;12r8[12d
+[1;14r[11;1Hfile[11G../lib/libc/__printf.c[?25l[?12l[?25h7[2;12r8[12d
+[1;14r[11;1Hfile[11G../lib/libc/snprintf.c[?25l[?12l[?25h7[2;12r8[12d
+[1;14r[11;1Hfile[11G../lib/libc/atoi.c[?25l[?12l[?25h7[2;12r8[12d
+[1;14r[11;1Hfile[11G../lib/libc/bzero.c[?25l[?12l[?25h7[2;12r8[12d
+[1;14r[11;1Hfile[11G../lib/libc/memcpy.c[?25l[?12l[?25h7[2;12r8[12d
+[1;14r[11;1Hfile[11G../lib/libc/memmove.c[?25l[?12l[?25h7[2;12r8[12d
+[1;14r[11;1Hfile[11G../lib/libc/strcat.c[?25l[?12l[?25h7[2;12r8[12d
+[1;14r[11;1Hfile[11G../lib/libc/strchr.c[?25l[?12l[?25h7[2;12r8[12d
+[1;14r[11;1Hfile[11G../lib/libc/strcmp.c[?25l[?12l[?25h7[2;12r8[12d
+[1;14r[11;1Hfile[11G../lib/libc/strcpy.c[?25l[?12l[?25h7[2;12r8[12d
+[1;14r[11;1Hfile[11G../lib/libc/strlen.c[?25l[?12l[?25h[A[?25l[?12l[?25h[A[?25l[?12l[?25h[A[?25l[?12l[?25h[A[?25l[?12l[?25h[A[?25l[?12l[?25h[A[?25l[?12l[?25h[A[?25l[?12l[?25h[A[?25l[?12l[?25h[A[?25l[?12l[?25h7[2;11r8M[1;14r[2;1Hfile[11G../lib/libc/__printf.c[?25l[?12l[?25h7[2;11r8M[1;14r[2;1Hfile[11Glib/ntoh.c[?25l[?12l[?25h7[2;11r8M[1;14r[2;1H[?25l[?12l[?25h7[2;11r8M[1;14r[2;1H[36m#[39m(B[m[?25l[?12l[?25h7[2;11r8M[1;14r[2;1H[36m# that those files have to have been hacked a bit to support this.[39m(B[m[?25l[?12l[?25h7[2;11r8M[1;14r[2;1H[36m# For most of these, we take the source files from our libc.  Note[39m(B[m[?25l[?12l[?25h7[2;11r8M[1;14r[2;1H[36m# [39m(B[m[?25l[?12l[?25h7[2;11r8M[1;14r[2;1H[36m# Standard C functions[39m(B[m[?25l[?12l[?25h7[2;11r8M[1;14r[2;1H[36m#[39m(B[m[?25l[?12l[?25h7[2;11r8M[1;14r[2;1H[?25l[?12l[?25h7[2;11r8M[1;14r[2;1Hfile[11Glib/misc.c[?25l[?12l[?25h7[2;11r8M[1;14r[2;1Hfile[11Glib/kgets.c[?25l[?12l[?25h7[2;12r8M[1;14r[2;1Hfile[11Glib/kprintf.c[?25l[?12l[?25h7[2;11r8M[1;14r[2;1Hfile[11Glib/kheap.c[?25l[?12l[?25h7[2;11r8M[1;14r[2;1Hfile[11Glib/queue.c[?25l[?12l[?25h7[2;11r8M[1;14r[2;1Hfile[11Glib/bitmap.c[?25l[?12l[?25h7[2;11r8M[1;14r[2;1Hfile[11Glib/array.c[?25l[?12l[?25h7[2;11r8M[1;14r[2;1H[?25l[?12l[?25h7[2;11r8M[1;14r[2;1H[36m# [39m(B[m[?25l[?12l[?25h7[2;12r8M[1;14r[2;1H[36m# Kernel utility code[39m(B[m[?25l[?12l[?25h7[2;11r8M[1;14r[2;1H[36m#[39m(B[m[?25l[?12l[?25h7[2;11r8M[1;14r[2;1H[?25l[?12l[?25h7[2;11r8M[1;14r[2;1H[36m########################################[39m(B[m[?25l[?12l[?25h7[2;11r8M[1;14r[2;1H[36m#[38X[2;40H#[39m(B[m[?25l[?12l[?25h7[2;11r8M[1;14r[2;1H[36m#            Support code[14X[2;40H#[39m(B[m[?25l[?12l[?25h7[2;11r8M[1;14r[2;1H[36m#[38X[2;40H#[39m(B[m[?25l[?12l[?25h7[2;11r8M[1;14r[2;1H[36m########################################[39m(B[m[?25l[?12l[?25h7[2;12r8M[1;14r[2;1H[?25l[?12l[?25h7[2;11r8M[1;14r[2;1Harchinclude   conf/conf.arch[?25l[?12l[?25h7[2;11r8M[1;14r[2;1H[?25l[?12l[?25h7[2;11r8M[1;14r[2;1H[36m# [39m(B[m[?25l[?12l[?25h7[2;12r8M[1;14r[2;1H[36m# expect to find is machine-dependent.)[39m(B[m[?25l[?12l[?25h7[2;11r8M[1;14r[2;1H[36m# declare all the hardware devices (since what sorts of hardware we[39m(B[m[?25l[?12l[?25h7[2;11r8M[1;14r[2;1H[36m# This will declare a bunch of machine-dependent source files and also[39m(B[m[?25l[?12l[?25h7[2;11r8M[1;14r[2;1H[36m#[39m(B[m[?25l[?12l[?25h7[2;11r8M[1;14r[2;1H[36m# conf.arch in the architecture's conf directory.[39m(B[m[?25l[?12l[?25h7[2;11r8M[1;14r[2;1H[36m# Get the definitions for whatever the architecture is from [39m(B[m[?25l[?12l[?25h7[2;12r8M[1;14r[2;1H[36m#[39m(B[m[?25l[?12l[?25h7[2;11r8M[1;14r[2;1H[?25l[?12l[?25h7[2;12r8M[1;14r[2;1H[36m########################################[39m(B[m[?25l[?12l[?25h7[2;11r8M[1;14r[2;1H[36m#[38X[2;40H#[39m(B[m[?25l[?12l[?25h7[2;11r8M[1;14r[2;1H[36m#        Machine-dependent stuff       #[39m(B[m[?25l[?12l[?25h7[2;11r8M[1;14r[2;1H[36m#[38X[2;40H#[39m(B[m[?25l[?12l[?25h7[2;11r8M[1;14r[2;1H[36m########################################[39m(B[m[?25l[?12l[?25h7[2;11r8M[1;14r[2;1H[?25l[?12l[?25h7[2;11r8M[1;14r[2;1Hdefattach[38;5;208m       [39m(B[mrandom0 pseudorand0[38;5;208m     [39m(B[mdev/generic/pseudorand_att.c[?25l[?12l[?25h7[2;11r8M[1;14r[2;1Hpseudoattach    pseudorand[?25l[?12l[?25h7[2;11r8M[1;14r[2;1Hdefdevice[38;5;208m       [39m(B[mpseudorand[38;5;208m[14X[2;41H[39m(B[mdev/generic/pseudorand.c[?25l[?12l[?25h7[2;12r8M[1;14r[2;1H[?25l[?12l[?25h7[2;11r8M[1;14r[2;1H[36m#[39m(B[m[?25l[?12l[?25h7[2;11r8M[1;14r[2;1H[36m# unrelated.)[39m(B[m[?25l[?12l[?25h7[2;11r8M[1;14r[2;1H[36m# (It's also a pseudo-random generator, but the two uses of pseudo are[39m(B[m[?25l[?12l[?25h7[2;11r8M[1;14r[2;1H[36m# Use "pseudoattach" because it's an all-software ("pseudo-") device.[39m(B[m[?25l[?12l[?25h7[2;11r8M[1;14r[2;1H[36m# Random number generator for when there's no hardware random device.[39m(B[m[?25l[?12l[?25h7[2;12r8M[1;14r[2;1H[36m#[39m(B[m[?25l[?12l[?25h7[2;11r8M[1;14r[2;1H[?25l[?12l[?25h7[2;11r8M[1;14r[2;1Hdefdevice[17Grandom[2;41Hdev/generic/random.c[?25l[?12l[?25h7[2;11r8M[1;14r[2;1Hdefdevice[17Grtclock[2;41Hdev/generic/rtclock.c[?25l[?12l[?25h7[2;12r8M[1;14r[2;1Hdefdevice[38;5;208m       [39m(B[mcon[38;5;208m[21X[2;41H[39m(B[mdev/generic/console.c[?25l[?12l[?25h7[2;11r8M[1;14r[2;1Hdefdevice[17Gbeep[38;5;208m[20X[2;41H[39m(B[mdev/generic/beep.c[?25l[?12l[?25h7[2;11r8M[1;14r[2;1H[?25l[?12l[?25h7[2;11r8M[1;14r[2;1H[36m# [39m(B[m[?25l[?12l[?25h7[2;11r8M[1;14r[2;1H[36m# for them.[39m(B[m[?25l[?12l[?25h7[2;11r8M[1;14r[2;1H[36m# definitions, which are included from there, can define attachments[39m(B[m[?25l[?12l[?25h7[2;11r8M[1;14r[2;1H[36m# These come before the archinclude so that the hardware device[39m(B[m[?25l[?12l[?25h7[2;12r8M[1;14r[2;1H[36m#[39m(B[m[?25l[?12l[?25h7[2;11r8M[1;14r[2;1H[36m# provide: beeping, system console I/O, and time of day clock.[39m(B[m[?25l[?12l[?25h7[2;11r8M[1;14r[2;1H[36m# These are abstract system services we expect the system hardware to[39m(B[m[?25l[?12l[?25h7[2;11r8M[1;14r[2;1H[36m#[39m(B[m[?25l[?12l[?25h7[2;11r8M[1;14r[2;1H[?25l[?12l[?25h7[2;12r8M[1;14r[2;1H[36m########################################[39m(B[m[?25l[?12l[?25h7[2;11r8M[1;14r[2;1H[36m#[38X[2;40H#[39m(B[m[?25l[?12l[?25h7[2;11r8M[1;14r[2;1H[36m# Generic machine-independent devices. #[39m(B[m[?25l[?12l[?25h7[2;11r8M[1;14r[2;1H[36m#[38X[2;40H#[39m(B[m[?25l[?12l[?25h7[2;11r8M[1;14r[2;1H[36m########################################[39m(B[m[?25l[?12l[?25h7[2;11r8M[1;14r[2;1H[?25l[?12l[?25h7[2;11r8M[1;14r[2;1H[?25l[?12l[?25h7[2;11r8M[1;14r[2;1H[36m############################################################[39m(B[m[?25l[?12l[?25h7[2;11r8M[1;14r[2;1H[36m#[39m(B[m[?25l[?12l[?25h7[2;12r8M[1;14r[2;1H[36m#[39m(B[m[?25l[?12l[?25h7[2;11r8M[1;14r[2;1H[36m#          archinclude conf/conf.bar includes src/kern/arch/mips/conf/conf.bar[39m(B[m[?25l[?12l[?25h7[2;11r8M[1;14r[2;1H[36m#          include conf/conf.foo     includes src/kern/conf/conf.foo[39m(B[m[?25l[?12l[?25h7[2;11r8M[1;14r[2;1H[36m#       Thus, if the architecture is "mips", [39m(B[m[?25l[?12l[?25h7[2;11r8M[1;14r[2;1H[36m#[39m(B[m[?25l[?12l[?25h7[2;11r8M[1;14r[2;1H[36m#       selected architecture.[39m(B[m[?25l[?12l[?25h7[2;12r8M[1;14r[2;1H[36m#       top directory of the architecture-specific area for the[39m(B[m[?25l[?12l[?25h7[2;12r8M[1;14r[2;1H[36m#       In the second form, the arch-filename is relative to the[39m(B[m[?25l[?12l[?25h7[2;11r8M[1;14r[2;1H[36m#[39m(B[m[?25l[?12l[?25h7[2;11r8M[1;14r[2;1H[36m#       the kernel source tree.[39m(B[m[?25l[?12l[?25h7[2;11r8M[1;14r[2;1H[36m#       In the first form, the filename is relative to the top of[39m(B[m[?25l[?12l[?25h7[2;11r8M[1;14r[2;1H[36m#[39m(B[m[?25l[?12l[?25h7[2;11r8M[1;14r[2;1H[36m#    archinclude arch-filename[39m(B[m[?25l[?12l[?25h7[2;11r8M[1;14r[2;1H[36m#    include filename[39m(B[m[?25l[?12l[?25h7[2;11r8M[1;14r[2;1H[36m#[39m(B[m[?25l[?12l[?25h7[2;11r8M[1;14r[2;1H[36m# The syntax for including other config/definition files is:[39m(B[m[?25l[?12l[?25h7[2;11r8M[1;14r[2;1H[36m#[39m(B[m[?25l[?12l[?25h7[2;11r8M[1;14r[2;1H[36m#[39m(B[m[?25l[?12l[?25h7[2;11r8M[1;14r[2;1H[36m#       However, it's similar to the way real systems are organized.[39m(B[m[?25l[?12l[?25h7[2;11r8M[1;14r[2;1H[36m#       here is overkill for such a limited environment as System/161.[39m(B[m[?25l[?12l[?25h7[2;11r8M[1;14r[2;1H[36m#       functionality, and the device driver architecture outlined [39m(B[m[?25l[?12l[?25h7[2;11r8M[1;14r[2;1H[36m#       Note that OS/161 does not make extensive use of this [39m(B[m[?25l[?12l[?25h7[2;11r8M[1;14r[2;1H[36m#[39m(B[m[?25l[?12l[?25h7[2;11r8M[1;14r[2;1H[36m#       as constrained by the tree structure of the available devices.[39m(B[m[?25l[?12l[?25h7[2;11r8M[1;14r[2;1H[36m#       occur more or less in the order things appear in the config,[39m(B[m[?25l[?12l[?25h7[2;11r8M[1;14r[2;1H[36m#       It sometimes matters what order things are handled in; probes[39m(B[m[?25l[?12l[?25h7[2;11r8M[1;14r[2;1H[36m#[39m(B[m[?25l[?12l[?25h7[2;11r8M[1;14r[2;1H[36m#       specific device number.[39m(B[m[?25l[?12l[?25h7[2;11r8M[1;14r[2;1H[36m#       depending on to what extent you want to configure only a[39m(B[m[?25l[?12l[?25h7[2;11r8M[1;14r[2;1H[36m#[39m(B[m[?25l[?12l[?25h7[2;11r8M[1;14r[2;1H[36m#[14X[2;16Hdevice foo0 at bar0[39m(B[m[?25l[?12l[?25h7[2;11r8M[1;14r[2;1H[36m#[14X[2;16Hdevice foo0 at bar*[39m(B[m[?25l[?12l[?25h7[2;11r8M[1;14r[2;1H[36m#[14X[2;16Hdevice foo* at bar0[39m(B[m[?25l[?12l[?25h7[2;11r8M[1;14r[2;1H[36m#[14X[2;16Hdevice foo* at bar*[39m(B[m[?25l[?12l[?25h7[2;11r8M[1;14r[2;1H[36m#[39m(B[m[?25l[?12l[?25h7[2;11r8M[1;14r[2;1H[36m#       device bar, one of the following syntaxes is used:[39m(B[m[?25l[?12l[?25h7[2;11r8M[1;14r[2;1H[36m#       To make use of device foo, which can be found attached to[39m(B[m[?25l[?12l[?25h7[2;11r8M[1;14r[2;1H[36m#[39m(B[m[?25l[?12l[?25h7[2;11r8M[1;14r[2;1H[36m#[14X[2;16Hdevice bar0[39m(B[m[?25l[?12l[?25h7[2;11r8M[1;14r[2;1H[36m#[39m(B[m[?25l[?12l[?25h7[2;11r8M[1;14r[2;1H[36m#       A pseudo-device should be included with this syntax:[39m(B[m[?25l[?12l[?25h7[2;11r8M[1;14r[2;1H[36m#[39m(B[m[?25l[?12l[?25h7[2;11r8M[1;14r[2;1H[36m#[14X[2;16Hdevice bar[39m(B[m[?25l[?12l[?25h7[2;11r8M[1;14r[2;1H[36m#[39m(B[m[?25l[?12l[?25h7[2;11r8M[1;14r[2;1H[36m#       be included with this syntax:[39m(B[m[?25l[?12l[?25h7[2;11r8M[1;14r[2;1H[36m#       in the kernel. A top-level device with no attachments should[39m(B[m[?25l[?12l[?25h7[2;11r8M[1;14r[2;1H[36m#       One selects particular attachments when including the device[39m(B[m[?25l[?12l[?25h7[2;11r8M[1;14r[2;1H[36m#[39m(B[m[?25l[?12l[?25h7[2;11r8M[1;14r[2;1H[36m#       put in the file specified with defdevice.[39m(B[m[?25l[?12l[?25h7[2;11r8M[1;14r[2;1H[36m#       generally the rest of the driver for the foo device) is[39m(B[m[?25l[?12l[?25h7[2;11r8M[1;14r[2;1H[36m#       specified with defattach; the config_foo function (and[39m(B[m[?25l[?12l[?25h7[2;11r8M[1;14r[2;1H[36m#       The attach_foo_to_bar functions are put in the files[39m(B[m[?25l[?12l[?25h7[2;11r8M[1;14r[2;1H[36m#[39m(B[m[?25l[?12l[?25h7[2;11r8M[1;14r[2;1H[36m#       cases, but the probe and attach logic is very different.[39m(B[m[?25l[?12l[?25h7[2;11r8M[1;14r[2;1H[36m#       and ISA cards - the chipset behaves the same way in both[39m(B[m[?25l[?12l[?25h7[2;11r8M[1;14r[2;1H[36m#       for instance, the same ethernet chipset used on both PCI[39m(B[m[?25l[?12l[?25h7[2;11r8M[1;14r[2;1H[36m#       real world this can be used to great effect when you have,[39m(B[m[?25l[?12l[?25h7[2;11r8M[1;14r[2;1H[36m#       the same device to different underlying devices. In the[39m(B[m[?25l[?12l[?25h7[2;11r8M[1;14r[2;1H[36m#       The idea is that there can be multiple attachments for[39m(B[m[?25l[?12l[?25h7[2;11r8M[1;14r[2;1H[36m#[39m(B[m[?25l[?12l[?25h7[2;11r8M[1;14r[2;1H[36m#[17X[2;19Hto.[39m(B[m[?25l[?12l[?25h7[2;11r8M[1;14r[2;1H[36m#[17X[2;19Hamong all the possible things it can be attached[39m(B[m[?25l[?12l[?25h7[2;11r8M[1;14r[2;1H[36m#[17X[2;19Hcan then perform initialization that's shared[39m(B[m[?25l[?12l[?25h7[2;11r8M[1;14r[2;1H[36m#[17X[2;19HA "devname" device has been found. This function[39m(B[m[?25l[?12l[?25h7[2;11r8M[1;14r[2;1H[36m#[39m(B[m[?25l[?12l[?25h7[2;11r8M[1;14r[2;1H[36m#           config_devname[39m(B[m[?25l[?12l[?25h7[2;11r8M[1;14r[2;1H[36m#[39m(B[m[?25l[?12l[?25h7[2;11r8M[1;14r[2;1H[36m#[17X[2;19Hfound.[39m(B[m[?25l[?12l[?25h7[2;11r8M[1;14r[2;1H[36m#[17X[2;19Ha "devname1" device. Returns NULL if nothing was[39m(B[m[?25l[?12l[?25h7[2;11r8M[1;14r[2;1H[36m#[17X[2;19Hthis function attempts to probe the devname2 for[39m(B[m[?25l[?12l[?25h7[2;11r8M[1;14r[2;1H[36m#[17X[2;19HA "devname2" device has been found and configured;[39m(B[m[?25l[?12l[?25h7[2;11r8M[1;14r[2;1H[36m#[39m(B[m[?25l[?12l[?25h7[2;11r8M[1;14r[2;1H[36m#           attach_devname1_to_devname2[39m(B[m[?25l[?12l[?25h7[2;11r8M[1;14r[2;1H[36m#[39m(B[m[?25l[?12l[?25h7[2;11r8M[1;14r[2;1H[36m#       which have the following hardwired names:[39m(B[m[?25l[?12l[?25h7[2;11r8M[1;14r[2;1H[36m#       other functions, which are supplied by device drivers,[39m(B[m[?25l[?12l[?25h7[2;11r8M[1;14r[2;1H[36m#       "autoconf_devname", for each device. These functions call[39m(B[m[?25l[?12l[?25h7[2;11r8M[1;14r[2;1H[36m#       by the config script. It contains functions called[39m(B[m[?25l[?12l[?25h7[2;11r8M[1;14r[2;1H[36m#       configured from code in autoconf.c. This file is generated[39m(B[m[?25l[?12l[?25h7[2;11r8M[1;14r[2;1H[36m#       Devices with attachments are automatically probed and [39m(B[m[?25l[?12l[?25h7[2;11r8M[1;14r[2;1H[36m#[39m(B[m[?25l[?12l[?25h7[2;11r8M[1;14r[2;1H[36m#       config_devname function will be called.)[39m(B[m[?25l[?12l[?25h7[2;11r8M[1;14r[2;1H[36m#       perform all setup and initialization necessary. (No[39m(B[m[?25l[?12l[?25h7[2;11r8M[1;14r[2;1H[36m#       initialization completes. The pseudoattach functions should[39m(B[m[?25l[?12l[?25h7[2;11r8M[1;14r[2;1H[36m#       should be called from dev/init.c after hardware device [39m(B[m[?25l[?12l[?25h7[2;11r8M[1;14r[2;1H[36m#       These calls are made from the function pseudoconfig(), which[39m(B[m[?25l[?12l[?25h7[2;11r8M[1;14r[2;1H[36m#       are called from autoconf.c to create instances as requested.[39m(B[m[?25l[?12l[?25h7[2;11r8M[1;14r[2;1H[36m#[39m(B[m[?25l[?12l[?25h7[2;11r8M[1;14r[2;1H[36m#           pseudoattach_devname[39m(B[m[?25l[?12l[?25h7[2;11r8M[1;14r[2;1H[36m#[39m(B[m[?25l[?12l[?25h7[2;11r8M[1;14r[2;1H[36m#       of the form[39m(B[m[?25l[?12l[?25h7[2;11r8M[1;14r[2;1H[36m#       are "attached" with the pseudoattach directive; functions[39m(B[m[?25l[?12l[?25h7[2;11r8M[1;14r[2;1H[36m#       Software-only devices are known as "pseudo-devices". These[39m(B[m[?25l[?12l[?25h7[2;11r8M[1;14r[2;1H[36m#[39m(B[m[?25l[?12l[?25h7[2;11r8M[1;14r[2;1H[36m#       system main bus which is located in a machine-dependent way.[39m(B[m[?25l[?12l[?25h7[2;11r8M[1;14r[2;1H[36m#       they are either all software with no hardware, or they are the[39m(B[m[?25l[?12l[?25h7[2;11r8M[1;14r[2;1H[36m#       themselves completely on their own. This generally means that[39m(B[m[?25l[?12l[?25h7[2;11r8M[1;14r[2;1H[36m#       the root of each tree must be able to probe and "find"[39m(B[m[?25l[?12l[?25h7[2;11r8M[1;14r[2;1H[36m#       There can be any number of these trees. However, devices at[39m(B[m[?25l[?12l[?25h7[2;11r8M[1;14r[2;1H[36m#[39m(B[m[?25l[?12l[?25h7[2;11r8M[1;14r[2;1H[36m#       might be several devices on each expansion card and so forth.[39m(B[m[?25l[?12l[?25h7[2;11r8M[1;14r[2;1H[36m#       several expansion cards are plugged into one bus and there[39m(B[m[?25l[?12l[?25h7[2;11r8M[1;14r[2;1H[36m#       trees. This mimics the organization of real hardware, where[39m(B[m[?25l[?12l[?25h7[2;11r8M[1;14r[2;1H[36m#       In OS/161, device drivers are conceptually organized into[39m(B[m[?25l[?12l[?25h7[2;11r8M[1;14r[2;1H[36m#[39m(B[m[?25l[?12l[?25h7[2;11r8M[1;14r[2;1H[36m#       "any such device can be attached this way".[39m(B[m[?25l[?12l[?25h7[2;11r8M[1;14r[2;1H[36m#       such device can be attached this way", or a star (*), meaning[39m(B[m[?25l[?12l[?25h7[2;11r8M[1;14r[2;1H[36m#       The % is either a specific number N, meaning "only the Nth[39m(B[m[?25l[?12l[?25h7[2;11r8M[1;14r[2;1H[36m#[39m(B[m[?25l[?12l[?25h7[2;11r8M[1;14r[2;1H[36m#       is enabled.[39m(B[m[?25l[?12l[?25h7[2;11r8M[1;14r[2;1H[36m#       The specified source files are only compiled if the device[39m(B[m[?25l[?12l[?25h7[2;11r8M[1;14r[2;1H[36m#[39m(B[m[?25l[?12l[?25h7[2;11r8M[1;14r[2;1H[36m#       kernel config file.)[39m(B[m[?25l[?12l[?25h7[2;11r8M[1;14r[2;1H[36m#       particular kernel by using the "device" statement in the[39m(B[m[?25l[?12l[?25h7[2;11r8M[1;14r[2;1H[36m#       driver can then be selectively included or not included in any[39m(B[m[?25l[?12l[?25h7[2;11r8M[1;14r[2;1H[36m#       Declare a device driver and its "attachment(s)". (The device[39m(B[m[?25l[?12l[?25h7[2;11r8M[1;14r[2;1H[36m#[39m(B[m[?25l[?12l[?25h7[2;11r8M[1;14r[2;1H[36m#    pseudoattach devname%[39m(B[m[?25l[?12l[?25h7[2;11r8M[1;14r[2;1H[36m#    defattach devname% otherdevname%   sourcefile.c[39m(B[m[?25l[?12l[?25h7[2;11r8M[1;14r[2;1H[36m#    defdevice devname[18X[2;41Hsourcefile.c[39m(B[m[?25l[?12l[?25h7[2;11r8M[1;14r[2;1H[36m#[39m(B[m[?25l[?12l[?25h7[2;11r8M[1;14r[2;1H[36m# The syntax for defining device drivers is:[39m(B[m[?25l[?12l[?25h7[2;11r8M[1;14r[2;1H[36m#[39m(B[m[?25l[?12l[?25h7[2;11r8M[1;14r[2;1H[36m#[39m(B[m[?25l[?12l[?25h7[2;11r8M[1;14r[2;1H[36m#       declarations that use it.[39m(B[m[?25l[?12l[?25h7[2;11r8M[1;14r[2;1H[36m#       The defoption must be seen before any optional file [39m(B[m[?25l[?12l[?25h7[2;11r8M[1;14r[2;1H[36m#[39m(B[m[?25l[?12l[?25h7[2;11r8M[1;14r[2;1H[36m#           which can be quite frustrating.[39m(B[m[?25l[?12l[?25h7[2;11r8M[1;14r[2;1H[36m#           option - if you don't, cpp will silently assume it is 0,[39m(B[m[?25l[?12l[?25h7[2;11r8M[1;14r[2;1H[36m#       *** Be sure to remember to include the header file for the[39m(B[m[?25l[?12l[?25h7[2;11r8M[1;14r[2;1H[36m#           of the symbol.[39m(B[m[?25l[?12l[?25h[3d[?25l[?12l[?25h[4d[?25l[?12l[?25h[5d[?25l[?12l[?25h[6d[?25l[?12l[?25h[7d[?25l[?12l[?25h[8d[?25l[?12l[?25h[9d[?25l[?12l[?25h[10d[?25l[?12l[?25h[11d[?25l[?12l[?25h7[2;12r8[12d
+[1;14r[11;1H[36m#[39m(B[m[?25l[?12l[?25h7[2;12r8[12d
+[1;14r[11;1H[36m#    defdevice devname[18X[11;41Hsourcefile.c[39m(B[m[?25l[?12l[?25h7[2;12r8[12d
+[1;14r[11;1H[36m#    defattach devname% otherdevname%   sourcefile.c[39m(B[m[?25l[?12l[?25h7[2;12r8[12d
+[1;14r[11;1H[36m#    pseudoattach devname%[39m(B[m[?25l[?12l[?25h7[2;12r8[12d
+[1;14r[11;1H[36m#[39m(B[m[?25l[?12l[?25h7[2;12r8[12d
+[1;14r[11;1H[36m#       Declare a device driver and its "attachment(s)". (The device[39m(B[m[?25l[?12l[?25h7[2;12r8[12d
+[1;14r[11;1H[36m#       driver can then be selectively included or not included in any[39m(B[m[?25l[?12l[?25h7[2;12r8[12d
+[1;14r[11;1H[36m#       particular kernel by using the "device" statement in the[39m(B[m[?25l[?12l[?25h7[2;12r8[12d
+[1;14r[11;1H[36m#       kernel config file.)[39m(B[m[?25l[?12l[?25h7[2;12r8[12d
+[1;14r[11;1H[36m#[39m(B[m[?25l[?12l[?25h7[2;12r8[12d
+[1;14r[11;1H[36m#       The specified source files are only compiled if the device[39m(B[m[?25l[?12l[?25h7[2;12r8[12d
+[1;14r[11;1H[36m#       is enabled.[39m(B[m[?25l[?12l[?25h7[2;12r8[12d
+[1;14r[11;1H[36m#[39m(B[m[?25l[?12l[?25h7[2;12r8[12d
+[1;14r[11;1H[36m#       The % is either a specific number N, meaning "only the Nth[39m(B[m[?25l[?12l[?25h7[2;12r8[12d
+[1;14r[11;1H[36m#       such device can be attached this way", or a star (*), meaning[39m(B[m[?25l[?12l[?25h7[2;12r8[12d
+[1;14r[11;1H[36m#       "any such device can be attached this way".[39m(B[m[?25l[?12l[?25h7[2;12r8[12d
+[1;14r[11;1H[36m#[39m(B[m[?25l[?12l[?25h7[2;12r8[12d
+[1;14r[11;1H[36m#       In OS/161, device drivers are conceptually organized into[39m(B[m[?25l[?12l[?25h7[2;12r8[12d
+[1;14r[11;1H[36m#       trees. This mimics the organization of real hardware, where[39m(B[m[?25l[?12l[?25h7[2;12r8[12d
+[1;14r[11;1H[36m#       several expansion cards are plugged into one bus and there[39m(B[m[?25l[?12l[?25h7[2;12r8[12d
+[1;14r[11;1H[36m#       might be several devices on each expansion card and so forth.[39m(B[m[?25l[?12l[?25h7[2;12r8[12d
+[1;14r[11;1H[36m#[39m(B[m[?25l[?12l[?25h7[2;12r8[12d
+[1;14r[11;1H[36m#       There can be any number of these trees. However, devices at[39m(B[m[?25l[?12l[?25h7[2;12r8[12d
+[1;14r[11;1H[36m#       the root of each tree must be able to probe and "find"[39m(B[m[?25l[?12l[?25h7[2;12r8[12d
+[1;14r[11;1H[36m#       themselves completely on their own. This generally means that[39m(B[m[?25l[?12l[?25h7[2;12r8[12d
+[1;14r[11;1H[36m#       they are either all software with no hardware, or they are the[39m(B[m[?25l[?12l[?25h7[2;12r8[12d
+[1;14r[11;1H[36m#       system main bus which is located in a machine-dependent way.[39m(B[m[?25l[?12l[?25h7[2;12r8[12d
+[1;14r[11;1H[36m#[39m(B[m[?25l[?12l[?25h7[2;12r8[12d
+[1;14r[11;1H[36m#       Software-only devices are known as "pseudo-devices". These[39m(B[m[?25l[?12l[?25h7[2;12r8[12d
+[1;14r[11;1H[36m#       are "attached" with the pseudoattach directive; functions[39m(B[m[?25l[?12l[?25h7[2;12r8[12d
+[1;14r[11;1H[36m#       of the form[39m(B[m[?25l[?12l[?25h7[2;12r8[12d
+[1;14r[11;1H[36m#[39m(B[m[?25l[?12l[?25h7[2;12r8[12d
+[1;14r[11;1H[36m#           pseudoattach_devname[39m(B[m[?25l[?12l[?25h7[2;12r8[12d
+[1;14r[11;1H[36m#[39m(B[m[?25l[?12l[?25h7[2;12r8[12d
+[1;14r[11;1H[36m#       are called from autoconf.c to create instances as requested.[39m(B[m[?25l[?12l[?25h7[2;12r8[12d
+[1;14r[11;1H[36m#       These calls are made from the function pseudoconfig(), which[39m(B[m[?25l[?12l[?25h7[2;12r8[12d
+[1;14r[11;1H[36m#       should be called from dev/init.c after hardware device [39m(B[m[?25l[?12l[?25h7[2;12r8[12d
+[1;14r[11;1H[36m#       initialization completes. The pseudoattach functions should[39m(B[m[?25l[?12l[?25h7[2;12r8[12d
+[1;14r[11;1H[36m#       perform all setup and initialization necessary. (No[39m(B[m[?25l[?12l[?25h7[2;12r8[12d
+[1;14r[11;1H[36m#       config_devname function will be called.)[39m(B[m[?25l[?12l[?25h7[2;12r8[12d
+[1;14r[11;1H[36m#[39m(B[m[?25l[?12l[?25h7[2;12r8[12d
+[1;14r[11;1H[36m#       Devices with attachments are automatically probed and [39m(B[m[?25l[?12l[?25h7[2;12r8[12d
+[1;14r[11;1H[36m#       configured from code in autoconf.c. This file is generated[39m(B[m[?25l[?12l[?25h7[2;12r8[12d
+[1;14r[11;1H[36m#       by the config script. It contains functions called[39m(B[m[?25l[?12l[?25h7[2;12r8[12d
+[1;14r[11;1H[36m#       "autoconf_devname", for each device. These functions call[39m(B[m[?25l[?12l[?25h7[2;12r8[12d
+[1;14r[11;1H[36m#       other functions, which are supplied by device drivers,[39m(B[m[?25l[?12l[?25h7[2;12r8[12d
+[1;14r[11;1H[36m#       which have the following hardwired names:[39m(B[m[?25l[?12l[?25h7[2;12r8[12d
+[1;14r[11;1H[36m#[39m(B[m[?25l[?12l[?25h7[2;12r8[12d
+[1;14r[11;1H[36m#           attach_devname1_to_devname2[39m(B[m[?25l[?12l[?25h7[2;12r8[12d
+[1;14r[11;1H[36m#[39m(B[m[?25l[?12l[?25h7[2;12r8[12d
+[1;14r[11;1H[36m#[17X[11;19HA "devname2" device has been found and configured;[39m(B[m[?25l[?12l[?25h7[2;12r8[12d
+[1;14r[11;1H[36m#[17X[11;19Hthis function attempts to probe the devname2 for[39m(B[m[?25l[?12l[?25h7[2;12r8[12d
+[1;14r[11;1H[36m#[17X[11;19Ha "devname1" device. Returns NULL if nothing was[39m(B[m[?25l[?12l[?25h7[2;12r8[12d
+[1;14r[11;1H[36m#[17X[11;19Hfound.[39m(B[m[?25l[?12l[?25h7[2;12r8[12d
+[1;14r[11;1H[36m#[39m(B[m[?25l[?12l[?25h7[2;12r8[12d
+[1;14r[11;1H[36m#           config_devname[39m(B[m[?25l[?12l[?25h7[2;12r8[12d
+[1;14r[11;1H[36m#[39m(B[m[?25l[?12l[?25h7[2;12r8[12d
+[1;14r[11;1H[36m#[17X[11;19HA "devname" device has been found. This function[39m(B[m[?25l[?12l[?25h7[2;12r8[12d
+[1;14r[11;1H[36m#[17X[11;19Hcan then perform initialization that's shared[39m(B[m[?25l[?12l[?25h7[2;12r8[12d
+[1;14r[11;1H[36m#[17X[11;19Hamong all the possible things it can be attached[39m(B[m[?25l[?12l[?25h7[2;12r8[12d
+[1;14r[11;1H[36m#[17X[11;19Hto.[39m(B[m[?25l[?12l[?25h[A[?25l[?12l[?25h[A[?25l[?12l[?25h[A[?25l[?12l[?25h[A[?25l[?12l[?25h[A[?25l[?12l[?25h[A[?25l[?12l[?25h[A[?25l[?12l[?25h[A[?25l[?12l[?25h[A[?25l[?12l[?25h7[2;11r8M[1;14r[2;1H[36m#[17X[2;19HA "devname2" device has been found and configured;[39m(B[m[?25l[?12l[?25h7[2;11r8M[1;14r[2;1H[36m#[39m(B[m[?25l[?12l[?25h7[2;11r8M[1;14r[2;1H[36m#           attach_devname1_to_devname2[39m(B[m[?25l[?12l[?25h7[2;11r8M[1;14r[2;1H[36m#[39m(B[m[?25l[?12l[?25h7[2;11r8M[1;14r[2;1H[36m#       which have the following hardwired names:[39m(B[m[?25l[?12l[?25h7[2;11r8M[1;14r[2;1H[36m#       other functions, which are supplied by device drivers,[39m(B[m[?25l[?12l[?25h7[2;11r8M[1;14r[2;1H[36m#       "autoconf_devname", for each device. These functions call[39m(B[m[?25l[?12l[?25h7[2;11r8M[1;14r[2;1H[36m#       by the config script. It contains functions called[39m(B[m[?25l[?12l[?25h7[2;11r8M[1;14r[2;1H[36m#       configured from code in autoconf.c. This file is generated[39m(B[m[?25l[?12l[?25h7[2;11r8M[1;14r[2;1H[36m#       Devices with attachments are automatically probed and [39m(B[m[?25l[?12l[?25h7[2;11r8M[1;14r[2;1H[36m#[39m(B[m[?25l[?12l[?25h7[2;11r8M[1;14r[2;1H[36m#       config_devname function will be called.)[39m(B[m[?25l[?12l[?25h7[2;11r8M[1;14r[2;1H[36m#       perform all setup and initialization necessary. (No[39m(B[m[?25l[?12l[?25h7[2;11r8M[1;14r[2;1H[36m#       initialization completes. The pseudoattach functions should[39m(B[m[?25l[?12l[?25h7[2;11r8M[1;14r[2;1H[36m#       should be called from dev/init.c after hardware device [39m(B[m[?25l[?12l[?25h7[2;11r8M[1;14r[2;1H[36m#       These calls are made from the function pseudoconfig(), which[39m(B[m[?25l[?12l[?25h7[2;11r8M[1;14r[2;1H[36m#       are called from autoconf.c to create instances as requested.[39m(B[m[?25l[?12l[?25h7[2;11r8M[1;14r[2;1H[36m#[39m(B[m[?25l[?12l[?25h7[2;11r8M[1;14r[2;1H[36m#           pseudoattach_devname[39m(B[m[?25l[?12l[?25h7[2;11r8M[1;14r[2;1H[36m#[39m(B[m[?25l[?12l[?25h7[2;11r8M[1;14r[2;1H[36m#       of the form[39m(B[m[?25l[?12l[?25h7[2;11r8M[1;14r[2;1H[36m#       are "attached" with the pseudoattach directive; functions[39m(B[m[?25l[?12l[?25h7[2;11r8M[1;14r[2;1H[36m#       Software-only devices are known as "pseudo-devices". These[39m(B[m[?25l[?12l[?25h7[2;11r8M[1;14r[2;1H[36m#[39m(B[m[?25l[?12l[?25h7[2;11r8M[1;14r[2;1H[36m#       system main bus which is located in a machine-dependent way.[39m(B[m[?25l[?12l[?25h7[2;11r8M[1;14r[2;1H[36m#       they are either all software with no hardware, or they are the[39m(B[m[?25l[?12l[?25h7[2;11r8M[1;14r[2;1H[36m#       themselves completely on their own. This generally means that[39m(B[m[?25l[?12l[?25h7[2;11r8M[1;14r[2;1H[36m#       the root of each tree must be able to probe and "find"[39m(B[m[?25l[?12l[?25h7[2;11r8M[1;14r[2;1H[36m#       There can be any number of these trees. However, devices at[39m(B[m[?25l[?12l[?25h7[2;11r8M[1;14r[2;1H[36m#[39m(B[m[?25l[?12l[?25h7[2;11r8M[1;14r[2;1H[36m#       might be several devices on each expansion card and so forth.[39m(B[m[?25l[?12l[?25h7[2;11r8M[1;14r[2;1H[36m#       several expansion cards are plugged into one bus and there[39m(B[m[?25l[?12l[?25h7[2;11r8M[1;14r[2;1H[36m#       trees. This mimics the organization of real hardware, where[39m(B[m[?25l[?12l[?25h7[2;11r8M[1;14r[2;1H[36m#       In OS/161, device drivers are conceptually organized into[39m(B[m[?25l[?12l[?25h7[2;11r8M[1;14r[2;1H[36m#[39m(B[m[?25l[?12l[?25h7[2;11r8M[1;14r[2;1H[36m#       "any such device can be attached this way".[39m(B[m[?25l[?12l[?25h7[2;11r8[2T[1;14r[2;1H[36m#       The % is either a specific number N, meaning "only the Nth[3d#       such device can be attached this way", or a star (*), meaning[A[39m(B[m[?25l[?12l[?25h7[2;11r8M[1;14r[2;1H[36m#[39m(B[m[?25l[?12l[?25h7[2;11r8M[1;14r[2;1H[36m#       is enabled.[39m(B[m[?25l[?12l[?25h7[2;11r8M[1;14r[2;1H[36m#       The specified source files are only compiled if the device[39m(B[m[?25l[?12l[?25h7[2;11r8M[1;14r[2;1H[36m#[39m(B[m[?25l[?12l[?25h7[2;11r8M[1;14r[2;1H[36m#       kernel config file.)[39m(B[m[?25l[?12l[?25h7[2;11r8M[1;14r[2;1H[36m#       particular kernel by using the "device" statement in the[39m(B[m[?25l[?12l[?25h7[2;11r8M[1;14r[2;1H[36m#       driver can then be selectively included or not included in any[39m(B[m[?25l[?12l[?25h7[2;11r8M[1;14r[2;1H[36m#       Declare a device driver and its "attachment(s)". (The device[39m(B[m[?25l[?12l[?25h7[2;11r8M[1;14r[2;1H[36m#[39m(B[m[?25l[?12l[?25h7[2;11r8M[1;14r[2;1H[36m#    pseudoattach devname%[39m(B[m[?25l[?12l[?25h7[2;11r8M[1;14r[2;1H[36m#    defattach devname% otherdevname%   sourcefile.c[39m(B[m[?25l[?12l[?25h7[2;11r8M[1;14r[2;1H[36m#    defdevice devname[18X[2;41Hsourcefile.c[39m(B[m[?25l[?12l[?25h7[2;11r8M[1;14r[2;1H[36m#[39m(B[m[?25l[?12l[?25h7[2;11r8M[1;14r[2;1H[36m# The syntax for defining device drivers is:[39m(B[m[?25l[?12l[?25h7[2;11r8M[1;14r[2;1H[36m#[39m(B[m[?25l[?12l[?25h7[2;11r8M[1;14r[2;1H[36m#[39m(B[m[?25l[?12l[?25h7[2;11r8M[1;14r[2;1H[36m#       declarations that use it.[39m(B[m[?25l[?12l[?25h7[2;11r8M[1;14r[2;1H[36m#       The defoption must be seen before any optional file [39m(B[m[?25l[?12l[?25h7[2;11r8M[1;14r[2;1H[36m#[39m(B[m[?25l[?12l[?25h7[2;11r8M[1;14r[2;1H[36m#           which can be quite frustrating.[39m(B[m[?25l[?12l[?25h7[2;11r8M[1;14r[2;1H[36m#           option - if you don't, cpp will silently assume it is 0,[39m(B[m[?25l[?12l[?25h7[2;11r8M[1;14r[2;1H[36m#       *** Be sure to remember to include the header file for the[39m(B[m[?25l[?12l[?25h7[2;11r8M[1;14r[2;1H[36m#           of the symbol.[39m(B[m[?25l[?12l[?25h7[2;11r8M[1;14r[2;1H[36m#       *** Be sure to use #if and not #ifdef - you want the value[39m(B[m[?25l[?12l[?25h7[2;11r8M[1;14r[2;1H[36m#[39m(B[m[?25l[?12l[?25h7[2;11r8M[1;14r[2;1H[36m#            #endif[39m(B[m[?25l[?12l[?25h7[2;11r8M[1;14r[2;1H[36m#[15X[2;17Hother_code();[39m(B[m[?25l[?12l[?25h7[2;11r8M[1;14r[2;1H[36m#            #else[39m(B[m[?25l[?12l[?25h7[2;11r8M[1;14r[2;1H[36m#[15X[2;17Hcode();[39m(B[m[?25l[?12l[?25h7[2;11r8M[1;14r[2;1H[36m#            #if OPT_FOO[39m(B[m[?25l[?12l[?25h7[2;11r8M[1;14r[2;1H[36m#            #include "opt-foo.h"[39m(B[m[?25l[?12l[?25h7[2;11r8M[1;14r[2;1H[36m#[39m(B[m[?25l[?12l[?25h7[2;11r8M[1;14r[2;1H[36m#       disabled by particular options by writing constructs like[39m(B[m[?25l[?12l[?25h7[2;11r8M[1;14r[2;1H[36m#       Thus, you can have small bits of code that are enabled or[39m(B[m[?25l[?12l[?25h7[2;11r8M[1;14r[2;1H[36m#       This symbol is #defined to either 0 or 1 in the logical way.[39m(B[m[?25l[?12l[?25h7[2;11r8M[1;14r[2;1H[36m#       directory, which defines a C preprocessor symbol OPT_OPTNAME.[39m(B[m[?25l[?12l[?25h7[2;11r8M[1;14r[2;1H[36m#       Additionally, a file "opt-optname.h" is created in the compile[39m(B[m[?25l[?12l[?25h7[2;11r8M[1;14r[2;1H[36m#[39m(B[m[?25l[?12l[?25h7[2;11r8M[1;14r[2;1H[36m#       compiled in if the option specified is not enabled.[39m(B[m[?25l[?12l[?25h7[2;11r8M[1;14r[2;1H[36m#       specified is enabled. Source files added with optofffile are[39m(B[m[?25l[?12l[?25h7[2;11r8M[1;14r[2;1H[36m#       Source files added with optfile are compiled in if the option[39m(B[m[?25l[?12l[?25h7[2;11r8M[1;14r[2;1H[36m#[39m(B[m[?25l[?12l[?25h7[2;11r8M[1;14r[2;1H[36m#       kernel config.[39m(B[m[?25l[?12l[?25h7[2;11r8M[1;14r[2;1H[36m#       then turned on by including "options optname" in a[39m(B[m[?25l[?12l[?25h7[2;11r8M[1;14r[2;1H[36m#       "defoption" declares the name of a kernel option. These are[39m(B[m[?25l[?12l[?25h7[2;11r8M[1;14r[2;1H[36m#[39m(B[m[?25l[?12l[?25h7[2;11r8M[1;14r[2;1H[36m#    optofffile optname sourcefile.c[39m(B[m[?25l[?12l[?25h7[2;11r8M[1;14r[2;1H[36m#    optfile optname sourcefile.c[39m(B[m[?25l[?12l[?25h7[2;11r8M[1;14r[2;1H[36m#    defoption optname[39m(B[m[?25l[?12l[?25h7[2;11r8M[1;14r[2;1H[36m#[39m(B[m[?25l[?12l[?25h7[2;11r8M[1;14r[2;1H[36m# The syntax for defining optional source files is:[39m(B[m[?25l[?12l[?25h7[2;11r8M[1;14r[2;1H[36m#[39m(B[m[?25l[?12l[?25h7[2;11r8M[1;14r[2;1H[36m#[39m(B[m[?25l[?12l[?25h7[2;11r8M[1;14r[2;1H[36m#       Such a file is always included automatically in every kernel.[39m(B[m[?25l[?12l[?25h7[2;11r8M[1;14r[2;1H[36m#[39m(B[m[?25l[?12l[?25h7[2;11r8M[1;14r[2;1H[36m#    file sourcefile.c[39m(B[m[?25l[?12l[?25h7[2;11r8M[1;14r[2;1H[36m#[39m(B[m[?25l[?12l[?25h7[2;11r8M[1;14r[2;1H[36m# The syntax for adding a regular source file is:[39m(B[m[?25l[?12l[?25h7[2;11r8M[1;14r[2;1H[36m# [39m(B[m[?25l[?12l[?25h7[2;11r8M[1;14r[2;1H[36m# kernel source, that is, src/kern.[39m(B[m[?25l[?12l[?25h7[2;11r8M[1;14r[2;1H[36m# Note: All source file names are relative to the top directory of the[39m(B[m[?25l[?12l[?25h7[2;11r8M[1;14r[2;1H[36m#[39m(B[m[?25l[?12l[?25h7[2;11r8M[1;14r[2;1H[36m# Kernel definition file syntax:[39m(B[m[?25l[?12l[?25h7[2;11r8M[1;14r[2;1H[36m#[39m(B[m[?25l[?12l[?25h7[2;11r8M[1;14r[2;1H[36m############################################################[39m(B[m[?25l[?12l[?25h7[2;11r8M[1;14r[2;1H[36m#[39m(B[m[?25l[?12l[?25h7[2;11r8M[1;14r[2;1H[36m#[39m(B[m[?25l[?12l[?25h7[2;11r8M[1;14r[2;1H[36m#       information about what this means, see below.[39m(B[m[?25l[?12l[?25h7[2;11r8M[1;14r[2;1H[36m#       a device foo that is attached to a device bar. For more [39m(B[m[?25l[?12l[?25h7[2;11r8M[1;14r[2;1H[36m#       supposed to be "attached" to anything. The second line enables[39m(B[m[?25l[?12l[?25h7[2;11r8M[1;14r[2;1H[36m#       a wildcard. The first line enables a device foo that is not[39m(B[m[?25l[?12l[?25h7[2;11r8M[1;14r[2;1H[36m#       where the % is either a number or a star, which is treated as[39m(B[m[?25l[?12l[?25h7[2;11r8M[1;14r[2;1H[36m#[39m(B[m[?25l[?12l[?25h7[2;11r8M[1;14r[2;1H[36m#    device foo% at bar%[39m(B[m[?25l[?12l[?25h7[2;11r8M[1;14r[2;1H[36m#    device foo%[39m(B[m[?25l[?12l[?25h7[2;11r8M[1;14r[2;1H[36m#[39m(B[m[?25l[?12l[?25h7[2;11r8M[1;14r[2;1H[36m# The syntax for turning on a device driver is:[39m(B[m[?25l[?12l[?25h7[2;11r8M[1;14r[2;1H[36m#[39m(B[m[?25l[?12l[?25h7[2;11r8M[1;14r[2;1H[36m#[39m(B[m[?25l[?12l[?25h7[2;11r8M[1;14r[2;1H[36m#       specially, and is just "debug" without the "options".[39m(B[m[?25l[?12l[?25h7[2;11r8M[1;14r[2;1H[36m#       The act of compiling with debug info is (has to be) handled[39m(B[m[?25l[?12l[?25h7[2;11r8M[1;14r[2;1H[36m#[39m(B[m[?25l[?12l[?25h7[2;11r8M[1;14r[2;1H[36m#       for more information.[39m(B[m[?25l[?12l[?25h7[2;11r8M[1;14r[2;1H[36m#       A previous "defoption" must have been seen first. See below[39m(B[m[?25l[?12l[?25h7[2;11r8M[1;14r[2;1H[36m#[39m(B[m[?25l[?12l[?25h7[2;11r8M[1;14r[2;1H[36m#    options optname[39m(B[m[?25l[?12l[?25h7[2;11r8M[1;14r[2;1H[36m#[39m(B[m[?25l[?12l[?25h7[2;11r8M[1;14r[2;1H[36m# The syntax for turning on a kernel compile option is:[39m(B[m[?25l[?12l[?25h7[2;11r8M[1;14r[2;1H[36m#[39m(B[m[?25l[?12l[?25h7[2;11r8M[1;14r[2;1H[36m#[39m(B[m[?25l[?12l[?25h7[2;11r8M[1;14r[2;1H[36m#       You can also include other files using the same syntax.[39m(B[m[?25l[?12l[?25h7[2;11r8M[1;14r[2;1H[36m#[39m(B[m[?25l[?12l[?25h7[2;11r8M[1;14r[2;1H[36m#       else useful.[39m(B[m[?25l[?12l[?25h7[2;11r8M[1;14r[2;1H[36m#       because the system must be defined before you can do much[39m(B[m[?25l[?12l[?25h7[2;11r8M[1;14r[2;1H[36m#       This should come second, after the architecture. This is[39m(B[m[?25l[?12l[?25h7[2;11r8M[1;14r[2;1H[36m#[39m(B[m[?25l[?12l[?25h7[2;11r8M[1;14r[2;1H[36m#    include conf.kern[39m(B[m[?25l[?12l[?25h7[2;11r8M[1;14r[2;1H[36m#[39m(B[m[?25l[?12l[?25h7[2;11r8M[1;14r[2;1H[36m# The syntax for including the system definition is:[39m(B[m[?25l[?12l[?25h7[2;11r8M[1;14r[2;1H[36m#[39m(B[m[?25l[?12l[?25h7[2;11r8M[1;14r[2;1H[36m#[39m(B[m[?25l[?12l[?25h7[2;11r8M[1;14r[2;1H[36m#       This must come before anything else in the kernel config.[39m(B[m[?25l[?12l[?25h7[2;11r8M[1;14r[2;1H[36m#[39m(B[m[?25l[?12l[?25h7[2;11r8M[1;14r[2;1H[36m#    arch archname[39m(B[m[?25l[?12l[?25h7[2;11r8M[1;14r[2;1H[36m#[39m(B[m[?25l[?12l[?25h7[2;11r8M[1;14r[2;1H[36m# The syntax for specifying the processor architecture to use is:[39m(B[m[?25l[?12l[?25h7[2;11r8M[1;14r[2;1H[36m#[39m(B[m[?25l[?12l[?25h7[2;11r8M[1;14r[2;1H[36m# Kernel config file syntax:[39m(B[m[?25l[?12l[?25h7[2;11r8M[1;14r[2;1H[36m#[39m(B[m[?25l[?12l[?25h7[2;11r8M[1;14r[2;1H[36m############################################################[39m(B[m[?25l[?12l[?25h7[2;11r8M[1;14r[2;1H[?25l[?12l[?25h7[2;11r8M[1;14r[2;1H[36m#[39m(B[m[?25l[?12l[?25h7[2;11r8M[1;14r[2;1H[36m# The documentation for the syntax of these files follows.[39m(B[m[?25l[?12l[?25h7[2;11r8M[1;14r[2;1H[36m#[39m(B[m[?25l[?12l[?25h7[2;11r8M[1;14r[2;1H[36m# will likely make a mess and produce mysterious error messages.[39m(B[m[?25l[?12l[?25h7[2;11r8M[1;14r[2;1H[36m# probably get the host system's kernel config utility, which[39m(B[m[?25l[?12l[?25h7[2;11r8M[1;14r[2;1H[36m# "./config", not just "config" - in the latter case you will[39m(B[m[?25l[?12l[?25h7[2;11r8M[1;14r[2;1H[36m# right directory (the same one this file is in) and run it as[39m(B[m[?25l[?12l[?25h7[2;11r8M[1;14r[2;1H[36m# Note: when running the config script, be sure to be in the[39m(B[m[?25l[?12l[?25h7[2;11r8M[1;14r[2;1H[36m#[39m(B[m[?25l[?12l[?25h7[2;12r8M[1;14r[2;1H[36m# others like it) and rerun the config script.[39m(B[m[?25l[?12l[?25h7[2;11r8M[1;14r[2;1H[36m# To add new files to the system, you need to edit this file (or[39m(B[m[?25l[?12l[?25h7[2;11r8M[1;14r[2;1H[36m#[39m(B[m[?25l[?12l[?25h7[2;11r8M[1;14r[2;1H[36m# facilities for a particular kernel build.[39m(B[m[?25l[?12l[?25h7[2;11r8M[1;14r[2;1H[36m# a kernel config (such as ASST1) is used to select options and [39m(B[m[?25l[?12l[?25h7[2;11r8M[1;14r[2;1H[36m# are declared by conf.kern and the various files it includes. Then[39m(B[m[?25l[?12l[?25h7[2;11r8M[1;14r[2;1H[36m# The idea is that the files, options, and facilities in the system[39m(B[m[?25l[?12l[?25h7[2;11r8M[1;14r[2;1H[36m#[39m(B[m[?25l[?12l[?25h7[2;11r8M[1;14r[2;1H[36m# Machine-independent kernel config definitions.[39m(B[m[?25l[?12l[?25h7[2;11r8M[1;14r[2;1H[36m#[39m(B[m[?25l[?12l[?25h[?25l[?12l[?25h[?25l[?12l[?25h[?25l[?12l[?25h[?25l[?12l[?25h[?25l[?12l[?25h[?25l[?12l[?25h[?25l[?12l[?25h[?25l[?12l[?25h[?25l[?12l[?25h[?25l[?12l[?25h[?25l[?12l[?25h[?25l[?12l[?25h[?25l[?12l[?25h[?25l[?12l[?25h[?25l[?12l[?25h[?25l[?12l[?25h[?25l[?12l[?25h[?25l[?12l[?25h[?25l[?12l[?25h[?25l[?12l[?25h[?25l[?12l[?25h[?25l[?12l[?25h[?25l[?12l[?25h[?25l[?12l[?25h[?25l[?12l[?25h[?25l[?12l[?25h[?25l[?12l[?25h[?25l[?12l[?25h[?25l[?12l[?25h[?25l[?12l[?25h[?25l[?12l[?25h[?25l[?12l[?25h[?25l[?12l[?25h[?25l[?12l[?25h[?25l[?12l[?25h[?25l[?12l[?25h[?25l[?12l[?25h[?25l[?12l[?25h[?25l[?12l[?25h[?25l[13d[J[14d[?12l[?25h[14;1H[?1049l[23;0;0t[?1l>[?2004l[?2004h]0;john@debian: ~/cs161/src/kern/conf[01;32mjohn@debian[00m:[01;34m~/cs161/src/kern/conf[00m$ vi conf.kern
+[?2004l[?1006;1000h[?1002h[?1049h[22;0;0t[>4;2m[?1h=[?2004h[?1004h[1;14r[?12h[?12l[22;2t[22;1t[27m[23m[29m[m[H[2J[?25l[14;1H"conf.kern" 453L, 14085B[2;1H▽[6n[2;1H  [3;1HPzz\[0%m[6n[3;1H           [1;1H[>c]10;?]11;?[1;1H[34m#
+# Machine-independent kernel config definitions.[m[2;49H[K[3;1H[34m#[m[3;2H[K[4;1H[34m# The idea is that the files, options, and facilities in the system
+# are declared by conf.kern and the various files it includes. Then
+# a kernel config (such as ASST1) is used to select options and 
+# facilities for a particular kernel build.
+#
+# To add new files to the system, you need to edit this file (or
+# others like it) and rerun the config script.
+#
+# Note: when running the config script, be sure to be in the
+# right directory (the same one this file is in) and run it as[m[14;67H8,1[11CTop[8;1H[?25h[?4mP+q436f\P+q6b75\P+q6b64\P+q6b72\P+q6b6c\P+q2332\P+q2334\P+q2569\P+q2a37\P+q6b31\[?12$p[?25l[14;57H/[8;1H[14;58Hc[8;1H[14;59Hc[8;1H[14;60Hc[8;1H[14;61Hc[8;1H[14;62H/[8;1H[14;63Hc[8;1H[14;64Hc[8;1H[14;65Hc[8;1H[14;66Hc[8;1H[14;57H          [8;1H[?25h[?25l[14;57H/[8;1H[14;58H1[8;1H[14;59He[8;1H[14;60H1[8;1H[14;61He[8;1H[14;62H/[8;1H[14;63H1[8;1H[14;64He[8;1H[14;65H1[8;1H[14;66He[8;1H[14;57H          [8;1H[27m[23m[29m[m[H[2J[1;1H[96m#
+# Machine-independent kernel config definitions.
+#
+# The idea is that the files, options, and facilities in the system
+# are declared by conf.kern and the various files it includes. Then
+# a kernel config (such as ASST1) is used to select options and 
+# facilities for a particular kernel build.
+#
+# To add new files to the system, you need to edit this file (or
+# others like it) and rerun the config script.
+#
+# Note: when running the config script, be sure to be in the
+# right directory (the same one this file is in) and run it as[m[14;67H8,1[11CTop"conf.kern" 453L, 14085B[8;1H[?25h[?25l[14;57H/[8;1H[14;1H[K[14;1H/[?25hm[?25l[1;13r[13;1H
+[1;14r[8;32H[7m[96mm[m[13;1H[96m# "./config", not just "config" - in the latter case you will[m[14;1H[K[14;67H9,32[11C0%/m[14;67H[K[14;3H[?25ha[?25l[1;13r[1;1H[7M[1;14r[1;32H[96mm[7;1H# probably get the host system's kernel config utility, which
+# will likely [m[7m[96mma[m[96mke a mess and produce mysterious error messages.
+#
+# The documentation for the syntax of these files follows.
+#
+
+############################################################[m[14;1H[K[14;67H16,15[10C1%/ma[14;67H[K[14;4H[?25hi[?25l[1;3H[96m      might be several devices on each expansion card and so forth.[m[2;2H[K[3;2H[96m       There can be any number of these trees. However, devices at
+#       the root of each tree must be able to probe and "find"
+#       themselves completely on their own. This generally means that
+#       they are either all software with no hardware, or they are the
+#       system[m[1C[7m[96mmai[m[96mn bus which is located in a machine-dependent way.[m[8;2H[K[9;2H[96m       Software-only devices are known as "pseudo-devices". These
+#       are "attached" with the pseudoattach directive; functions
+#       of the form
+#
+#           pseudoattach_devname[m[13;33H[K[14;67H144,16[8C31%[14;67H[K[14;5H[?25hn[?25l[7;19H[7m[96mn[m[14;67H144,16[8C31%[14;67H[K[14;6H[?25h.[?25l[7;20H[7m[96m [m[14;67H144,16[8C31%[14;67H[K[14;7H[?25hc[?25l[1;1Hfile      thread/thread.c[1;26H[K[2;1H[K[3;2H[K[4;3H[96mMain/toplevel stuff[m[4;22H[K[5;2H[K[6;1H[K[7;1Hfile      main/[7mmain.c[m[7;22H[K[8;1Hfile      main/menu.c[9;1H[K[10;2H[K[11;3H[96mUser-level programming/system call support
+# (you will probably want to add stuff here while doing the basic system
+# calls assignment)[m[13;20H[K[14;67H373,16[8C83%[14;67H[K[14;8H[?25h[?25l[7;16Hmain.c[14;67H373,16[8C83%[7;16H[?25h[?25l[14;57H~@k[7;16H[14;57H   [8;16H[14;69H4[8;16H[?25h[?25l[14;57H~@k[8;16H[14;57H   [8;17H[14;72H7[8;17H[?25h[?25l[14;57H~@k[8;17H[14;57H   [8;18H[14;72H8[8;18H[?25h[?25l[14;57H~@k[8;18H[14;57H   [8;19H[14;72H9[8;19H[?25h[?25l[14;57H~@k[8;19H[14;57H   [8;20H[14;71H20[8;20H[?25h[?25l[14;57H~@k[8;20H[14;57H   [8;21H[14;72H1[8;21H[?25h[?25l[14;57H~@k[8;21H[14;57H   [8;21H[?25h[?25l[14;57H^M[8;21H[14;57H  [8;1H[1;13r[13;1H
+[1;14r[13;1H[96m#[m[14;1H[K[14;67H375,0-1[7C83%[8;1H[?25h[?25l[14;57Hf[8;1H[?25h[?25l[14;58Hi[8;1H[14;57H  [8;1H[?25h[?25l[14;57Hi[8;1H[14;57H [8;1H[14;1H[1m-- INSERT --[m[14;67H[K[14;67H375,1[9C83%[8;1H[?25h[?25lf[14;71H2[8;2H[?25h[?25li[14;71H3[8;3H[?25h[?25ll[14;71H4[8;4H[?25h[?25le[14;71H5[8;5H[?25h[?25l[14;71H6[8;6H[?25h[?25l[14;71H5[8;5H[?25h[?25l[14;71H6[8;6H[?25h[?25l[14;71H7[8;7H[?25h[?25l[14;71H8[8;8H[?25h[?25l[14;71H9[8;9H[?25h[?25l[14;71H10[8;10H[?25h[?25l[14;72H1[8;11H[?25h[?25lm[14;72H2[8;12H[?25h[?25la[14;72H3[8;13H[?25h[?25li[14;72H4[8;14H[?25h[?25ln[14;72H5[8;15H[?25h[?25l/[14;72H6[8;16H[?25h[?25lh[14;72H7[8;17H[?25h[?25le[14;72H8[8;18H[?25h[?25ll[14;72H9[8;19H[?25h[?25ll[14;71H20[8;20H[?25h[?25lo[14;72H1[8;21H[?25h[?25lc[14;72H2[8;22H[?25h[?25l[8;21H[K[14;72H1[8;21H[?25h[?25l.[14;72H2[8;22H[?25h[?25lc[14;72H3[8;23H[?25h[14;1H[K[8;22H[?25l[14;57H^[[8;22H[14;57H  [8;23H[14;67H375,22[8C83%[8;22H[?25h[?25l[14;57H![8;22H[?25h[?25l[14;58Hw[8;22H[14;57H  [8;22H[14;67H[K[14;1H:.![?25hq[?25l[14;4H[K[14;4H[?25h[?25l[14;3H[K[14;3H[?25hwq[?25l[97m[41mE140: Use ! to write partial buffer[m[31C375,22[8C83%[8;22H[?25h[?25l[14;57H![8;22H[?25h[?25l[14;58Hw[8;22H[14;57H  [8;22H[14;1H[K[14;1H:.![?25hq[?25l[14;4H[K[14;4H[?25hwq[?25l[?25h[?1006;1000l[?1002l[?2004l[>4;m[?2004h[>4;2m[?1006;1000h[?1002h
+shell returned 127
+[?1006;1000l[?1002l[29m[m
+[38;5;121mPress ENTER or type command to continue[?1006;1000h[?1002h[27m[23m[29m[m[H[2J[?25l[2;1H[96m#
+# Main/toplevel stuff
+#[m
+
+file      main/main.c
+file      main/menu.c
+/bin/bash: line 1: wq: command not found
+[96m#
+# User-level programming/system call support
+# (you will probably want to add stuff here while doing the basic system
+# calls assignment)
+#[m[14;67H375,1[9C83%[8;1H[?25h[?25l[14;57H~@k[8;1H[14;57H   [7;21H[14;69H4,21[7;21H[?25h[?4m[?25l[14;57Hi[7;21H[14;57H [7;21H[14;1H[1m-- INSERT --[m[14;67H[K[14;67H374,21[8C83%[7;21H[?25h[?25l[14;72H2[7;22H[?25h[?25l[8;13r[8;1H[L[1;14r[14;67H[K[14;67H375,1[9C83%[8;1H[?25h[?25lf[14;71H2[8;2H[?25h[?25li[14;71H3[8;3H[?25h[?25ll[14;71H4[8;4H[?25h[?25le[14;71H5[8;5H[?25h[?25l[14;71H6[8;6H[?25h[?25l[14;71H7[8;7H[?25h[?25l[14;71H8[8;8H[?25h[?25l[14;71H9[8;9H[?25h[?25l[14;71H10[8;10H[?25h[?25l[14;72H1[8;11H[?25h[?25lm[14;72H2[8;12H[?25h[?25la[14;72H3[8;13H[?25h[?25li[14;72H4[8;14H[?25h[?25ln[14;72H5[8;15H[?25h[?25l/[14;72H6[8;16H[?25h[?25lh[14;72H7[8;17H[?25h[?25le[14;72H8[8;18H[?25h[?25ll[14;72H9[8;19H[?25h[?25ll[14;71H20[8;20H[?25h[?25lo[14;72H1[8;21H[?25h[?25l.[14;72H2[8;22H[?25h[?25lc[14;72H3[8;23H[?25h[?25l[1;13r[13;1H
+[1;14r[13;1H[96m#[m[14;67H[K[14;67H376,23[8C83%[8;23H[?25h[?25l[14;72H4[8;24H[?25h[?25l[14;72H5[8;25H[?25h[?25l[14;72H6[8;26H[?25h[?25l[14;72H7[8;27H[?25h[?25l[14;72H8[8;28H[?25h[?25l[14;72H9[8;29H[?25h[?25l[14;71H30[8;30H[?25h[?25l[14;72H1[8;31H[?25h[?25l[14;72H2[8;32H[?25h[?25l[14;72H3[8;33H[?25h[?25l[14;72H4[8;34H[?25h[?25l[14;72H5[8;35H[?25h[?25l[14;72H6[8;36H[?25h[?25l[14;72H7[8;37H[?25h[?25l[14;72H8[8;38H[?25h[?25l[14;72H9[8;39H[?25h[?25l[14;71H40[8;40H[?25h[?25l[14;72H1[8;41H[?25h[?25l[8;40H[K[14;72H0[8;40H[?25h[?25l[8;39H[K[14;71H39[8;39H[?25h[?25l[8;38H[K[14;72H8[8;38H[?25h[?25l[8;37H[K[14;72H7[8;37H[?25h[?25l[8;36H[K[14;72H6[8;36H[?25h[?25l[14;72H5[8;35H[?25h[?25l[8;34H[K[14;72H4[8;34H[?25h[?25l[8;33H[K[14;72H3[8;33H[?25h[?25l[8;32H[K[14;72H2[8;32H[?25h[?25l[14;72H1[8;31H[?25h[?25l[8;30H[K[14;72H0[8;30H[?25h[?25l[8;29H[K[14;71H29[8;29H[?25h[?25l[8;28H[K[14;72H8[8;28H[?25h[?25l[8;27H[K[14;72H7[8;27H[?25h[?25l[8;26H[K[14;72H6[8;26H[?25h[?25l[8;25H[K[14;72H5[8;25H[?25h[?25l[8;24H[K[14;72H4[8;24H[?25h[?25l[14;72H3[8;23H[?25h[?25l[8;22H[K[14;72H2[8;22H[?25h[?25l[8;21H[K[14;72H1[8;21H[?25h[?25l[8;20H[K[14;72H0[8;20H[?25h[?25l[14;71H19[8;19H[?25h[?25l[8;18H[K[14;72H8[8;18H[?25h[?25l[8;17H[K[14;72H7[8;17H[?25h[?25l[14;72H6[8;16H[?25h[?25l[8;15H[K[14;72H5[8;15H[?25h[?25l[8;14H[K[14;72H4[8;14H[?25h[?25l[8;13H[K[14;72H3[8;13H[?25h[?25l[8;12H[K[14;72H2[8;12H[?25h[?25l[14;72H1[8;11H[?25h[?25l[8;10H[K[14;72H0[8;10H[?25h[?25l[8;9H[K[14;71H9 [8;9H[?25h[?25l[8;8H[K[14;71H8[8;8H[?25h[?25l[8;7H[K[14;71H7[8;7H[?25h[?25l[8;6H[K[14;71H6[8;6H[?25h[?25l[8;5H[K[14;71H5[8;5H[?25h[?25l[8;4H[K[14;71H4[8;4H[?25h[?25l[8;3H[K[14;71H3[8;3H[?25h[?25l[8;2H[K[14;71H2[8;2H[?25h[?25l[8;1H[K[14;71H1[8;1H[?25h[?25l[7;13r[13;1H
+[1;14r[7;1Hfile      main/hello.c[14;67H[K[14;67H375,23[8C83%[7;23H[?25h[14;1H[K[7;22H[?25l[14;57H^[[7;22H[14;57H  [7;23H[14;67H375,22[8C83%[7;22H[?25h[?25l[14;57H:[7;22H[14;57H[K[14;1H:[?25hwq[?25l[?1006;1000l[?1002l[?2004l[>4;m"conf.kern" 453L, 14107B written[23;2t[23;1t
+[?1004l[?2004l[?1l>[?1049l[23;0;0t[?25h[>4;m[?2004h]0;john@debian: ~/cs161/src/kern/conf[01;32mjohn@debian[00m:[01;34m~/cs161/src/kern/conf[00m$ cd ~/cs161/src/kern/conf
+[?2004l[?2004h]0;john@debian: ~/cs161/src/kern/conf[01;32mjohn@debian[00m:[01;34m~/cs161/src/kern/conf[00m$ ./c[Kconfig ASS0[KT0
+[?2004lConfiguration ASST0
+Generating files... opt-*.h files.mk defs.mk Makefile autoconf.h autoconf.c
+Configuration in ../compile/ASST0 done
+Remember to make depend
+[?2004h]0;john@debian: ~/cs161/src/kern/conf[01;32mjohn@debian[00m:[01;34m~/cs161/src/kern/conf[00m$ cd ../compile/ASSt[KT0
+[?2004l[?2004h]0;john@debian: ~/cs161/src/kern/compile/ASST0[01;32mjohn@debian[00m:[01;34m~/cs161/src/kern/compile/ASST0[00m$ make depend
+[?2004lcs161-gcc  -mno-abicalls -fno-pic -Wall -W -Wwrite-strings -g -nostdinc -I../../include -I../../dev -I.  -ffreestanding -D_KERNEL -G 0 -M ../../dev/generic/console.c ../../dev/lamebus/emu.c ../../dev/lamebus/lser.c ../../dev/lamebus/lhd.c ../../dev/generic/pseudorand.c ../../dev/generic/random.c ../../dev/lamebus/ltimer.c ../../dev/lamebus/lamebus.c ../../dev/lamebus/lrandom.c ../../dev/generic/beep.c ../../dev/lamebus/ltrace.c ../../dev/generic/rtclock.c ../../dev/lamebus/ltimer_att.c ../../dev/lamebus/con_lser.c ../../dev/lamebus/lhd_att.c ../../dev/lamebus/random_lrandom.c ../../dev/lamebus/rtclock_ltimer.c ../../dev/lamebus/ltrace_att.c ../../dev/lamebus/lser_att.c ../../dev/lamebus/lrandom_att.c ../../dev/lamebus/emu_att.c ../../dev/lamebus/beep_ltimer.c ../../dev/generic/pseudorand_att.c ../../fs/sfs/sfs_vnode.c ../../fs/sfs/sfs_fs.c ../../arch/mips/mips/dumbvm.c ../../fs/sfs/sfs_io.c ../../arch/mips/mips/cache_mips1.S ../../arch/mips/mips/exception.S ../../arch/mips/mips/lamebus_mips.c ../../arch/mips/mips/interrupt.c ../../arch/mips/mips/pcb.c ../../arch/mips/mips/ram.c ../../arch/mips/mips/spl.c ../../arch/mips/mips/start.S ../../arch/mips/mips/switch.S ../../arch/mips/mips/syscall.c ../../arch/mips/mips/threadstart.S ../../arch/mips/mips/trap.c ../../arch/mips/mips/tlb_mips1.S ../../../lib/libc/mips-setjmp.S ../../lib/copyinout.c ../../lib/array.c ../../lib/bitmap.c ../../lib/queue.c ../../lib/kheap.c ../../lib/kprintf.c ../../lib/kgets.c ../../lib/misc.c ../../lib/ntoh.c ../../../lib/libc/__printf.c ../../../lib/libc/snprintf.c ../../../lib/libc/atoi.c ../../../lib/libc/bzero.c ../../../lib/libc/memcpy.c ../../../lib/libc/memmove.c ../../../lib/libc/strcat.c ../../../lib/libc/strchr.c ../../../lib/libc/strcmp.c ../../../lib/libc/strcpy.c ../../../lib/libc/strlen.c ../../../lib/libc/strrchr.c ../../../lib/libc/strtok_r.c ../../dev/init.c ../../fs/vfs/device.c ../../fs/vfs/vfscwd.c ../../fs/vfs/vfslist.c ../../fs/vfs/vfslookup.c ../../fs/vfs/vfspath.c ../../fs/vfs/vnode.c ../../fs/vfs/devnull.c ../../thread/hardclock.c ../../thread/synch.c ../../thread/scheduler.c ../../thread/thread.c ../../main/main.c ../../main/menu.c ../../main/hello.c ../../userprog/loadelf.c ../../userprog/runprogram.c ../../userprog/uio.c ../../test/arraytest.c ../../test/bitmaptest.c ../../test/queuetest.c ../../test/threadtest.c ../../test/tt3.c ../../test/synchtest.c ../../test/malloctest.c ../../test/fstest.c ../../compile/ASST0/autoconf.c > depend.mk
+../../main/hello.c:1:19: error: stdio.h: No such file or directory
+make: *** [Makefile:132: depend] Error 1
+[?2004h]0;john@debian: ~/cs161/src/kern/compile/ASST0[01;32mjohn@debian[00m:[01;34m~/cs161/src/kern/compile/ASST0[00m$ make
+[?2004lcs161-gcc  -mno-abicalls -fno-pic -Wall -W -Wwrite-strings -g -nostdinc -I../../include -I../../dev -I.  -ffreestanding -D_KERNEL -G 0 -c ../../main/hello.c
+../../main/hello.c:1:19: error: stdio.h: No such file or directory
+../../main/hello.c: In function ‘hello’:
+../../main/hello.c:4: warning: implicit declaration of function ‘printf’
+../../main/hello.c:10:2: warning: no newline at end of file
+make: *** [files.mk:388: hello.o] Error 1
+[?2004h]0;john@debian: ~/cs161/src/kern/compile/ASST0[01;32mjohn@debian[00m:[01;34m~/cs161/src/kern/compile/ASST0[00m$ make install[K[K[K[K[K[K[K[K[K[K[K[Kgit ad [Kd hello.c
+[?2004lfatal: pathspec 'hello.c' did not match any files
+[?2004h]0;john@debian: ~/cs161/src/kern/compile/ASST0[01;32mjohn@debian[00m:[01;34m~/cs161/src/kern/compile/ASST0[00m$ cd ..
+[?2004l[?2004h]0;john@debian: ~/cs161/src/kern/compile[01;32mjohn@debian[00m:[01;34m~/cs161/src/kern/compile[00m$ cd ..
+[?2004l[?2004h]0;john@debian: ~/cs161/src/kern[01;32mjohn@debian[00m:[01;34m~/cs161/src/kern[00m$ cd main/
+[?2004l[?2004h]0;john@debian: ~/cs161/src/kern/main[01;32mjohn@debian[00m:[01;34m~/cs161/src/kern/main[00m$ git add helo.c[K[K[Klo.c
+[?2004l[?2004h]0;john@debian: ~/cs161/src/kern/main[01;32mjohn@debian[00m:[01;34m~/cs161/src/kern/main[00m$ git add hello.c[7Pcd main/[3P..git add hello.cmake[K dependcd ../compile/ASST0[5P./config ASST0cd ~/cs161/src/kern/conf
+[?2004l[?2004h]0;john@debian: ~/cs161/src/kern/conf[01;32mjohn@debian[00m:[01;34m~/cs161/src/kern/conf[00m$ cd ~/cs161/src/kern/conf[Kcd ~/cs161/src/kern/conf[9Pgit add hello.c[7Pcd main/[3P..git add hello.cmake[K dependcd ../compile/ASST0[5P./config ASST0cd ~/cs161/src/kern/conf[10P./config ASST0
+[?2004lConfiguration ASST0
+Generating files... opt-*.h files.mk defs.mk Makefile autoconf.h autoconf.c
+Configuration in ../compile/ASST0 done
+Remember to make depend
+[?2004h]0;john@debian: ~/cs161/src/kern/conf[01;32mjohn@debian[00m:[01;34m~/cs161/src/kern/conf[00m$ ./config ASST0cd ~/cs161/src/kern/conf[9Pgit add hello.c[7Pcd main/[3P..git add hello.cmake[K dependcd ../compile/ASST0[8Pmake depend
+[?2004lmake: *** No rule to make target 'depend'.  Stop.
+[?2004h]0;john@debian: ~/cs161/src/kern/conf[01;32mjohn@debian[00m:[01;34m~/cs161/src/kern/conf[00m$ make depend./config ASST0cd ~/cs161/src/kern/conf[9Pgit add hello.c[7Pcd main/[3P..[K[K[K[K[Kgit add hello.cmake[K dependcd ../compile/ASST0[5P./config ASST0cd ~/cs161/src/kern/conf[10P./config ASST0cd ~/cs161/src/kern/conf
+[?2004l[?2004h]0;john@debian: ~/cs161/src/kern/conf[01;32mjohn@debian[00m:[01;34m~/cs161/src/kern/conf[00m$ cd ~/cs161/src/kern/conf[13Pmake depend./config ASST0
+[?2004lConfiguration ASST0
+Generating files... opt-*.h files.mk defs.mk Makefile autoconf.h autoconf.c
+Configuration in ../compile/ASST0 done
+Remember to make depend
+[?2004h]0;john@debian: ~/cs161/src/kern/conf[01;32mjohn@debian[00m:[01;34m~/cs161/src/kern/conf[00m$ ./config ASST0cd ~/cs161/src/kern/conf[13Pmake depend
+[?2004lmake: *** No rule to make target 'depend'.  Stop.
+[?2004h]0;john@debian: ~/cs161/src/kern/conf[01;32mjohn@debian[00m:[01;34m~/cs161/src/kern/conf[00m$  b[K[K[7mcd ~/cs161/src/kern/conf[27m
+[7m./config ASST0[27m
+[A[A[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[Ccd ~/cs161/src/kern/conf
+./config ASST0
+[A
+[?2004lConfiguration ASST0
+Generating files... opt-*.h files.mk defs.mk Makefile autoconf.h autoconf.c
+Configuration in ../compile/ASST0 done
+Remember to make depend
+[?2004h]0;john@debian: ~/cs161/src/kern/conf[01;32mjohn@debian[00m:[01;34m~/cs161/src/kern/conf[00m$ [7mcd ../compile/ASST0[27m
+[A[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[Ccd ../compile/ASST0
+[A
+[?2004l[?2004h]0;john@debian: ~/cs161/src/kern/compile/ASST0[01;32mjohn@debian[00m:[01;34m~/cs161/src/kern/compile/ASST0[00m$ make depend
+[?2004lcs161-gcc  -mno-abicalls -fno-pic -Wall -W -Wwrite-strings -g -nostdinc -I../../include -I../../dev -I.  -ffreestanding -D_KERNEL -G 0 -M ../../dev/generic/console.c ../../dev/lamebus/emu.c ../../dev/lamebus/lser.c ../../dev/lamebus/lhd.c ../../dev/generic/pseudorand.c ../../dev/generic/random.c ../../dev/lamebus/ltimer.c ../../dev/lamebus/lamebus.c ../../dev/lamebus/lrandom.c ../../dev/generic/beep.c ../../dev/lamebus/ltrace.c ../../dev/generic/rtclock.c ../../dev/lamebus/ltimer_att.c ../../dev/lamebus/con_lser.c ../../dev/lamebus/lhd_att.c ../../dev/lamebus/random_lrandom.c ../../dev/lamebus/rtclock_ltimer.c ../../dev/lamebus/ltrace_att.c ../../dev/lamebus/lser_att.c ../../dev/lamebus/lrandom_att.c ../../dev/lamebus/emu_att.c ../../dev/lamebus/beep_ltimer.c ../../dev/generic/pseudorand_att.c ../../fs/sfs/sfs_vnode.c ../../fs/sfs/sfs_fs.c ../../arch/mips/mips/dumbvm.c ../../fs/sfs/sfs_io.c ../../arch/mips/mips/cache_mips1.S ../../arch/mips/mips/exception.S ../../arch/mips/mips/lamebus_mips.c ../../arch/mips/mips/interrupt.c ../../arch/mips/mips/pcb.c ../../arch/mips/mips/ram.c ../../arch/mips/mips/spl.c ../../arch/mips/mips/start.S ../../arch/mips/mips/switch.S ../../arch/mips/mips/syscall.c ../../arch/mips/mips/threadstart.S ../../arch/mips/mips/trap.c ../../arch/mips/mips/tlb_mips1.S ../../../lib/libc/mips-setjmp.S ../../lib/copyinout.c ../../lib/array.c ../../lib/bitmap.c ../../lib/queue.c ../../lib/kheap.c ../../lib/kprintf.c ../../lib/kgets.c ../../lib/misc.c ../../lib/ntoh.c ../../../lib/libc/__printf.c ../../../lib/libc/snprintf.c ../../../lib/libc/atoi.c ../../../lib/libc/bzero.c ../../../lib/libc/memcpy.c ../../../lib/libc/memmove.c ../../../lib/libc/strcat.c ../../../lib/libc/strchr.c ../../../lib/libc/strcmp.c ../../../lib/libc/strcpy.c ../../../lib/libc/strlen.c ../../../lib/libc/strrchr.c ../../../lib/libc/strtok_r.c ../../dev/init.c ../../fs/vfs/device.c ../../fs/vfs/vfscwd.c ../../fs/vfs/vfslist.c ../../fs/vfs/vfslookup.c ../../fs/vfs/vfspath.c ../../fs/vfs/vnode.c ../../fs/vfs/devnull.c ../../thread/hardclock.c ../../thread/synch.c ../../thread/scheduler.c ../../thread/thread.c ../../main/main.c ../../main/menu.c ../../main/hello.c ../../userprog/loadelf.c ../../userprog/runprogram.c ../../userprog/uio.c ../../test/arraytest.c ../../test/bitmaptest.c ../../test/queuetest.c ../../test/threadtest.c ../../test/tt3.c ../../test/synchtest.c ../../test/malloctest.c ../../test/fstest.c ../../compile/ASST0/autoconf.c > depend.mk
+[?2004h]0;john@debian: ~/cs161/src/kern/compile/ASST0[01;32mjohn@debian[00m:[01;34m~/cs161/src/kern/compile/ASST0[00m$ make
+[?2004lcs161-gcc  -mno-abicalls -fno-pic -Wall -W -Wwrite-strings -g -nostdinc -I../../include -I../../dev -I.  -ffreestanding -D_KERNEL -G 0 -c ../../main/main.c
+cs161-gcc  -mno-abicalls -fno-pic -Wall -W -Wwrite-strings -g -nostdinc -I../../include -I../../dev -I.  -ffreestanding -D_KERNEL -G 0 -c ../../main/hello.c
+cs161-gcc  -mno-abicalls -fno-pic -Wall -W -Wwrite-strings -g -nostdinc -I../../include -I../../dev -I.  -ffreestanding -D_KERNEL -G 0 -c ../../compile/ASST0/autoconf.c
+../../conf/newvers.sh ASST0
+*** This is ASST0 build #2 ***
+cs161-gcc  -mno-abicalls -fno-pic -Wall -W -Wwrite-strings -g -nostdinc -I../../include -I../../dev -I.  -ffreestanding -D_KERNEL -G 0 -c vers.c
+cs161-ld  -nostdlib -Ttext 0x80001000 -T ../../arch/mips/conf/ldscript -G 0 console.o emu.o lser.o lhd.o pseudorand.o random.o ltimer.o lamebus.o lrandom.o beep.o ltrace.o rtclock.o ltimer_att.o con_lser.o lhd_att.o random_lrandom.o rtclock_ltimer.o ltrace_att.o lser_att.o lrandom_att.o emu_att.o beep_ltimer.o pseudorand_att.o sfs_vnode.o sfs_fs.o dumbvm.o sfs_io.o cache_mips1.o exception.o lamebus_mips.o interrupt.o pcb.o ram.o spl.o start.o switch.o syscall.o threadstart.o trap.o tlb_mips1.o mips-setjmp.o copyinout.o array.o bitmap.o queue.o kheap.o kprintf.o kgets.o misc.o ntoh.o __printf.o snprintf.o atoi.o bzero.o memcpy.o memmove.o strcat.o strchr.o strcmp.o strcpy.o strlen.o strrchr.o strtok_r.o init.o device.o vfscwd.o vfslist.o vfslookup.o vfspath.o vnode.o devnull.o hardclock.o synch.o scheduler.o thread.o main.o menu.o hello.o loadelf.o runprogram.o uio.o arraytest.o bitmaptest.o queuetest.o threadtest.o tt3.o synchtest.o malloctest.o fstest.o autoconf.o vers.o -o kernel
+cs161-size kernel
+   text	   data	    bss	    dec	    hex	filename
+ 160648	    448	   7668	 168764	  2933c	kernel
+[?2004h]0;john@debian: ~/cs161/src/kern/compile/ASST0[01;32mjohn@debian[00m:[01;34m~/cs161/src/kern/compile/ASST0[00m$ make install
+[?2004l[ -d /home/john/cs161/root ] || mkdir /home/john/cs161/root
+cp kernel /home/john/cs161/root/kernel-ASST0
+rm -f /home/john/cs161/root/kernel
+ln -s kernel-ASST0 /home/john/cs161/root/kernel
+[?2004h]0;john@debian: ~/cs161/src/kern/compile/ASST0[01;32mjohn@debian[00m:[01;34m~/cs161/src/kern/compile/ASST0[00m$ exit
+[?2004lexit
+
+Script done on 2025-09-11 18:39:02-05:00 [COMMAND_EXIT_CODE="0"]

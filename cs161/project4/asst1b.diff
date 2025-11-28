@@ -1,0 +1,383 @@
+diff --git a/kern/asst1/catsem.c b/kern/asst1/catsem.c
+index dcb257b..6a3d13e 100644
+--- a/kern/asst1/catsem.c
++++ b/kern/asst1/catsem.c
+@@ -18,6 +18,8 @@
+ #include <lib.h>
+ #include <test.h>
+ #include <thread.h>
++#include <synch.h>
++#include <clock.h>
+ 
+ 
+ /*
+@@ -43,6 +45,7 @@
+  */
+ 
+ #define NMICE 2
++typedef enum {false, true} bool;
+ 
+ 
+ /*
+@@ -67,6 +70,32 @@
+  *
+  */
+ 
++static struct semaphore *mutex;
++static struct semaphore *catSemaphore;
++static struct semaphore *mouseSemaphore;
++static struct semaphore *finished;
++
++static volatile int catsWaiting;
++static volatile int miceWaiting;
++static volatile int catsEating;
++static volatile int miceEating;
++static volatile bool dishBeingUsed[NFOODBOWLS];
++
++typedef enum {noTurn = 0, catTurn = 1, miceTurn = 2} turnN;
++static volatile turnN turnFlag;
++
++// Function Delcarations
++static void start(void);
++static void reset(void);
++static void catBegin(bool *firstCat, bool *currCat);
++static void catEat(unsigned long catNumber, int *dish);
++static void mouseBegin(bool *firstMouse, bool *currMouse);
++static void mouseEat(unsigned long mouseNumber, int *dish);
++static void mouseReleaseDish(int dish);
++static void catReleaseDish(int dish);
++static void catSwitch(void);
++static void mouseSwitch(void);
++
+ static
+ void
+ catsem(void * unusedpointer, 
+@@ -75,9 +104,23 @@ catsem(void * unusedpointer,
+         /*
+          * Avoid unused variable warnings.
+          */
+-
+         (void) unusedpointer;
+-        (void) catnumber;
++
++        bool firstCat = false;
++        bool currCat = false;
++        int dish = -1;
++
++        catBegin(&firstCat, &currCat);
++        kprintf("cat %lu has entered the kitchen\n", catnumber);
++
++        catEat(catnumber, &dish);
++        clocksleep(1);
++        kprintf("cat %lu has finished eating\n", catnumber);
++
++        catReleaseDish(dish);
++        catSwitch();
++
++        V(finished);
+ }
+         
+ 
+@@ -105,9 +148,23 @@ mousesem(void * unusedpointer,
+         /*
+          * Avoid unused variable warnings.
+          */
+-
+         (void) unusedpointer;
+-        (void) mousenumber;
++
++        bool firstMouse = false;
++        bool currMouse = false;
++        int dish = -1;
++
++        mouseBegin(&firstMouse, &currMouse);
++        kprintf("mouse %lu has entered the kitchen\n", mousenumber);
++
++        mouseEat(mousenumber, &dish);
++        kprintf("mouse %lu finished eating\n", mousenumber);
++        clocksleep(1);
++
++        mouseReleaseDish(dish);
++        mouseSwitch();
++
++        V(finished);
+ }
+ 
+ 
+@@ -127,71 +184,191 @@ mousesem(void * unusedpointer,
+  */
+ 
+ int
+-catmousesem(int nargs,
+-            char ** args)
++catmousesem(int nargs, char ** args)
+ {
+         int index, error;
+-   
+-        /*
+-         * Avoid unused variable warnings.
+-         */
+-
+         (void) nargs;
+         (void) args;
+    
+-        /*
+-         * Start NCATS catsem() threads.
+-         */
++        start();
+ 
++        /* Start NCATS catsem() threads */
+         for (index = 0; index < NCATS; index++) {
+-           
+-                error = thread_fork("catsem Thread", 
+-                                    NULL, 
+-                                    index, 
+-                                    catsem, 
+-                                    NULL
+-                                    );
+-                
+-                /*
+-                 * panic() on error.
+-                 */
+-
++                error = thread_fork("catsem Thread", NULL, index, catsem, NULL);
+                 if (error) {
+-                 
+-                        panic("catsem: thread_fork failed: %s\n", 
+-                              strerror(error)
+-                              );
++                        panic("catsem: thread_fork failed: %s\n", strerror(error));
+                 }
+         }
+-        
+-        /*
+-         * Start NMICE mousesem() threads.
+-         */
+ 
++        /* Start NMICE mousesem() threads */
+         for (index = 0; index < NMICE; index++) {
+-   
+-                error = thread_fork("mousesem Thread", 
+-                                    NULL, 
+-                                    index, 
+-                                    mousesem, 
+-                                    NULL
+-                                    );
+-                
+-                /*
+-                 * panic() on error.
+-                 */
+-
++                error = thread_fork("mousesem Thread", NULL, index, mousesem, NULL);
+                 if (error) {
+-         
+-                        panic("mousesem: thread_fork failed: %s\n", 
+-                              strerror(error)
+-                              );
++                        panic("mousesem: thread_fork failed: %s\n", strerror(error));
+                 }
+         }
++        
++        for(index = 0; index < NCATS + NMICE; index++) P(finished);
+ 
++        reset();
+         return 0;
+ }
+ 
++static void
++start(void) {
++        int i;
++        catsWaiting = miceWaiting = catsEating = miceEating = 0;
++        for (i = 0; i < NFOODBOWLS; i++) dishBeingUsed[i] = false;
++
++        mutex = sem_create("mutex", 1);
++        catSemaphore = sem_create("cats", 0);
++        mouseSemaphore = sem_create("mice", 0);
++        finished = sem_create("done", 0);
++
++
++        turnFlag = noTurn;
++}
++
++static void
++reset(void) {
++        // Destroy all semaphores
++        sem_destroy(mutex);
++        sem_destroy(catSemaphore);
++        sem_destroy(mouseSemaphore);
++        sem_destroy(finished);
++}
++
++static void
++catBegin(bool *firstCat, bool *currCat) {
++        P(mutex);
++        catsWaiting++;
++
++        if(turnFlag == noTurn && catsEating == 0 && miceEating == 0) {
++                turnFlag = catTurn;
++                V(catSemaphore);
++        }
++        V(mutex);
++
++        P(catSemaphore);
++
++        P(mutex);
++        *firstCat = (catsEating == 0);
++        *currCat = false;
++
++        if (*firstCat && catsWaiting > 1 && catsEating < NFOODBOWLS) {
++                *currCat = true;
++                V(catSemaphore);
++        } 
++        V(mutex);
++}
++
++static void catEat(unsigned long catNumber, int *dish) {
++        int i;
++        P(mutex);
++
++        for (i = 0; i < NFOODBOWLS; i++) {
++                if(dishBeingUsed[i] == false) {
++                        dishBeingUsed[i] = true;
++                        *dish = i + 1;
++                        break;
++                }
++        }
++        catsEating++;
++        V(mutex);
++        kprintf("cat %lu is eating out of dish %d\n", catNumber, *dish);
++}
++
++
++static void mouseBegin(bool *firstMouse, bool *currMouse) {
++        P(mutex);
++        miceWaiting++;
++
++        if(turnFlag == noTurn && miceEating == 0 && catsEating == 0) {
++                turnFlag = miceTurn;
++                V(mouseSemaphore);
++        }
++        V(mutex);
++
++        P(mouseSemaphore);
++
++        P(mutex);
++        *firstMouse = (miceEating == 0);
++        *currMouse = false;
++
++        if (*firstMouse && miceWaiting > 1 && miceEating < NFOODBOWLS) {
++                *currMouse = true;
++                V(mouseSemaphore);
++        } 
++        V(mutex);
++}
++
++static void mouseEat(unsigned long mouseNumber, int *dish) {
++        int i;
++        P(mutex);
++
++        for (i = 0; i < NFOODBOWLS; i++) {
++                if(dishBeingUsed[i] == false) {
++                        dishBeingUsed[i] = true;
++                        *dish = i + 1;
++                        break;
++                }
++        }
++        miceEating++;
++        V(mutex);
++        kprintf("mouse %lu is eating out of dish %d\n", mouseNumber, *dish);
++}
++
++static void mouseReleaseDish(int dish) {
++        P(mutex);
++        dishBeingUsed[dish-1] = false;
++        miceWaiting--;
++        miceEating--;
++        V(mutex);
++
++}
++static void catReleaseDish(int dish) {
++        P(mutex);
++        dishBeingUsed[dish-1] = false;
++        catsWaiting--;
++        catsEating--;
++        V(mutex);
++}
++
++static void catSwitch(void) {
++        P(mutex);
++        if (catsEating == 0) {
++                if (miceWaiting > 0) {
++                        turnFlag = miceTurn;
++                        V(mouseSemaphore);
++                }
++                else if (catsWaiting > 0) {
++                        turnFlag = catTurn;
++                        V(catSemaphore);
++                }
++                else {
++                        turnFlag = noTurn;
++                }
++        }
++        V(mutex);
++}
++
++static void mouseSwitch(void) {
++    P(mutex);
++    if (miceEating == 0) {
++        if (catsWaiting > 0) {
++            turnFlag = catTurn;
++            V(catSemaphore);
++        } else if (miceWaiting > 0) {
++            // keep mice going
++            turnFlag = miceTurn;
++            V(mouseSemaphore);
++        } else {
++            turnFlag = noTurn;
++        }
++    }
++    V(mutex);
++}
++
+ 
+ /*
+  * End of catsem.c
+diff --git a/kern/compile/ASST1/catsem.o b/kern/compile/ASST1/catsem.o
+index e967501..8f8c05f 100644
+Binary files a/kern/compile/ASST1/catsem.o and b/kern/compile/ASST1/catsem.o differ
+diff --git a/kern/compile/ASST1/depend.mk b/kern/compile/ASST1/depend.mk
+index 3861979..5c33b3a 100644
+--- a/kern/compile/ASST1/depend.mk
++++ b/kern/compile/ASST1/depend.mk
+@@ -103,7 +103,8 @@ catlock.o: ../../asst1/catlock.c ../../include/types.h machine/types.h \
+   ../../include/test.h ../../include/thread.h machine/pcb.h
+ catsem.o: ../../asst1/catsem.c ../../include/types.h machine/types.h \
+   ../../include/kern/types.h ../../include/lib.h machine/setjmp.h \
+-  ../../include/test.h ../../include/thread.h machine/pcb.h
++  ../../include/test.h ../../include/thread.h machine/pcb.h \
++  ../../include/synch.h ../../include/clock.h opt-synchprobs.h
+ sfs_vnode.o: ../../fs/sfs/sfs_vnode.c ../../include/types.h \
+   machine/types.h ../../include/kern/types.h ../../include/lib.h \
+   machine/setjmp.h ../../include/synch.h ../../include/array.h \
+diff --git a/kern/compile/ASST1/kernel b/kern/compile/ASST1/kernel
+index c05dfdd..df9f240 100755
+Binary files a/kern/compile/ASST1/kernel and b/kern/compile/ASST1/kernel differ
+diff --git a/kern/compile/ASST1/vers.c b/kern/compile/ASST1/vers.c
+index 840d006..6e98f44 100644
+--- a/kern/compile/ASST1/vers.c
++++ b/kern/compile/ASST1/vers.c
+@@ -1,3 +1,3 @@
+ /* This file is automatically generated. Edits will be lost.*/
+-const int buildversion = 4;
++const int buildversion = 13;
+ const char buildconfig[] = "ASST1";
+diff --git a/kern/compile/ASST1/vers.o b/kern/compile/ASST1/vers.o
+index e679112..e2dd92c 100644
+Binary files a/kern/compile/ASST1/vers.o and b/kern/compile/ASST1/vers.o differ
+diff --git a/kern/compile/ASST1/version b/kern/compile/ASST1/version
+index b8626c4..b1bd38b 100644
+--- a/kern/compile/ASST1/version
++++ b/kern/compile/ASST1/version
+@@ -1 +1 @@
+-4
++13

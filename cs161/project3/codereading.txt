@@ -1,0 +1,48 @@
+4.1 Thread Questions
+1) What happens to a thread when it exits (i.e., calls thread_exit() )? What about 
+when it sleeps?
+If it exits by calling thread_exit(), it’s removed from the scheduler's list of runnable threads and its resources are cleaned up. 
+The thread's state is changed to ZOMBIE, and it will no longer be scheduled to run. 
+If the thread was the last reference to a process, the process is cleaned up as well. 
+When a thread sleeps by calling thread_sleep(), it is moved to a SLEEPING state and will not run until it is woken up by another thread or an event occurs that it was waiting for.
+
+2) What function(s) handle(s) a context switch?
+thread_switch() does. This function saves the state of the current running thread and restores the state of the next thread to run. 
+
+3) How many thread states are there? What are they?
+Four: READY, RUNNING, SLEEPING, ZOMBIE
+
+4) What does it mean to turn interrupts off? How is this accomplished? Why is it important 
+to turn off interrupts in the thread subsystem code?
+Meaning? It temporarily masks hardware interrupts so the CPU can't be touched by interrupts.
+How? It raises the interrupt priority level (like splhigh() / splx())
+Why is it important? Run queues and sleep queues are shared between IO/timer interrupt handlers and normal code. If we disable interrupts it prevents races like sleep after wakeup or corrupt lists during a switch.
+
+5) What happens when a thread wakes up another thread? How does a sleeping thread get 
+to run again?
+A wakeup moves matching sleepers to the run queue from the wait channels sleep list and marks them as READY.
+
+4.2 Scheduler Questions
+6) What function is responsible for choosing the next thread to run?
+schedule(). It selects a runnable thread from the ready queue and passes it to the context switching code so that the CPU starts executing it.
+
+7) How does that function pick the next thread?
+The schedule() function uses a round robin algorithm. It removes the first thread from the ready queue (using FIFO) and runs it next. 
+
+8) What role does the hardware timer play in scheduling? What hardware independent 
+function is called on a timer interrupt?
+The hardware timer creates periodic interrupts so the kernel can preempt the running thread and perform scheduling. 
+When the timer interrupt occurs, hardclock() is called. It updates system time, triggers preemption, and may cause a call to the scheduler if the current thread’s time slice has expired.
+
+4.3 Synchronization Questions
+9) Describe how thread_sleep() and thread_wakeup() are used to implement 
+semaphores. What is the purpose of the argument passed to thread_sleep()?
+The semaphores use thread_sleep() to block a thread when the semaphore count is zero or negative, meaning it must wait. 
+The argument to thread_sleep() is a wait channel that identifies the condition the thread is waiting for. 
+The thread_wakeup() function wakes up one or more threads sleeping on that same wait channel when the resource becomes available.
+
+10) Why does the lock API in OS/161 provide lock_do_i_hold(), but not 
+lock_get_holder()? 
+lock_do_i_hold() lets a thread check if it holds a lock, which is used for debugging and assertions. 
+OS/161 does not provide lock_get_holder() because showing which thread owns a lock can be a security risk or bad practice. 
+The lock holder can change at any moment, and relying on that information could create race conditions and bad synchronization.

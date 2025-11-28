@@ -1,0 +1,17 @@
+1. Explain how to avoid starvation in your implementation.
+
+Starvation is avoided in my implementation by using a turn based system managed by the shared variable turnFlag. 
+Only one species is allowed to eat at a time and when cats or mice arrive, they must wait on their own semaphore until it becomes their turn. 
+At the start of each turn, only a limited number of a species can eat, matching the number of available bowls. 
+When the last animal of that group finishes eating, the program checks if the other species is waiting and switches the turn to them. 
+If no animals are waiting, the turn resets so that whichever species arrives next can take it. 
+This approach ensures that cats and mice alternate fairly, and no group can continuously occupy the bowls, which prevents starvation.
+
+2. Comment on your experience of implementing the Cats-and-Mice program. Can you 
+derive any principles about the use of the semaphore synchronization primitives?
+
+Implementing the Cats and Mice program helped me understand how semaphores can be used to control access to shared resources and ensure proper synchronization between concurrent threads to prevent deadlocks. 
+I learned that semaphores are powerful tools for ensuring mutual exclusion and coordinating the order in which threads run. 
+The program showed the importance of protecting shared variables with a mutex and using separate semaphores to manage waiting groups. 
+It also demonstrated that synchronization requires careful planning to avoid issues like deadlock and starvation. 
+Overall, the main principle I derived is that semaphores should be used to balance fairness and efficiency, allowing multiple threads to cooperate safely without interfering with each other.

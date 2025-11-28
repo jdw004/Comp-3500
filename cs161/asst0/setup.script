@@ -1,0 +1,17 @@
+Script started on 2025-09-11 15:44:16-05:00 [TERM="xterm-256color" TTY="/dev/pts/4" COLUMNS="76" LINES="14"]
+[?2004h]0;john@debian: ~/cs161[01;32mjohn@debian[00m:[01;34m~/cs161[00m$ mkdir asst0
+[?2004l[?2004h]0;john@debian: ~/cs161[01;32mjohn@debian[00m:[01;34m~/cs161[00m$ tar vfzx os161[K[K[K[K[K[K[K[K[K[K[K[K[K[Kls
+[?2004l[0m[01;34masst0[0m               [01;34mcs161-gcc-1.5[0m  [01;34mmips-unknown-elf[0m   [01;34mshare[0m
+[01;34mbin[0m                 [01;34mcs161-gdb-1.5[0m  [01;34mos161-1.10[0m         [01;34msys161-1.14[0m
+[01;34mbuild-binutils[0m      [01;34minfo[0m           [01;31mos161-1.10.tar.gz[0m  [01;31msys161-1.14.tar.gz[0m
+[01;34mbuild-gcc[0m           [01;34mlib[0m            [01;34mroot[0m               sys161.conf
+[01;34mcs161-binutils-1.5[0m  [01;34mman[0m            session.txt        [01;34mtools[0m
+[?2004h]0;john@debian: ~/cs161[01;32mjohn@debian[00m:[01;34m~/cs161[00m$ echo already unpakcc[K[K[Kcked os[K[K[K[K[K[K[K[K[K[K[K[K[K[K[K[K[K[K[K[K[K[K[K[Kecho :a[K[K"already unb=[K[Kpacked os161:[K"
+[?2004lalready unpacked os161
+[?2004h]0;john@debian: ~/cs161[01;32mjohn@debian[00m:[01;34m~/cs161[00m$ mv os161-1.10 os161
+[?2004l[?2004h]0;john@debian: ~/cs161[01;32mjohn@debian[00m:[01;34m~/cs161[00m$ be setup.script.
+[?2004lbash: be: command not found
+[?2004h]0;john@debian: ~/cs161[01;32mjohn@debian[00m:[01;34m~/cs161[00m$ exit
+[?2004lexit
+
+Script done on 2025-09-11 15:46:41-05:00 [COMMAND_EXIT_CODE="127"]
